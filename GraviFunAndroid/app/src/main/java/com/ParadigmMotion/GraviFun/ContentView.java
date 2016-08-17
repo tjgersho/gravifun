@@ -55,7 +55,7 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
 
         Log.d("TJG", "Global Get Width Content View Surface Created" + Integer.toString(g.getWindowWidth()));
         Log.d("TJG", "Global Get Height Content View Surface Created" + Integer.toString(g.getWindowHeight()));
-        gravController = GravController.getInstance();
+        gravController = GravController.getInstance(getHolder());
 
         thread.setRunning(true);
         thread.start();

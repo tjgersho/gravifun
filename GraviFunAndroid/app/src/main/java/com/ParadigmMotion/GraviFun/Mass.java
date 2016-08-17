@@ -7,6 +7,7 @@ import android.util.Log;
 /**
  * Created by tjgersho on 8/12/16.
  */
+
 public class Mass {
 
     public double posX;
@@ -16,7 +17,7 @@ public class Mass {
     public double forceX;
     public double forceY;
 
-    private double radius;
+    public double radius;
     public double diameter;
 
 
@@ -50,8 +51,8 @@ public class Mass {
 
    }
 
-    private double mass(){
-
+    public double mass(){
+      // Log.d("TJG", "MASS Rad" + Double.toString(this.radius));
          return this.radius*this.radius*Math.PI*(1920/Math.min(windowWidth,windowHeight));
 
     }
