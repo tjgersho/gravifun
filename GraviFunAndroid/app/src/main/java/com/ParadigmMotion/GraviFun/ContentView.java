@@ -26,6 +26,8 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
     public ContentView(Context context){
 
        super(context);
+        g.setContext(context);
+
         getHolder().addCallback(this);
 
         thread = new MainThread(getHolder(), this);
@@ -41,8 +43,8 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
 
         g.setWindowHeight(height);
         g.setWindowWidth(width);
-        Log.d("TJG", "Global Get Width Rotate View" + Integer.toString(g.getWindowWidth()));
-        Log.d("TJG", "Global Get Height Rotate View" + Integer.toString(g.getWindowHeight()));
+       // Log.d("TJG", "Global Get Width Rotate View" + Integer.toString(g.getWindowWidth()));
+      //  Log.d("TJG", "Global Get Height Rotate View" + Integer.toString(g.getWindowHeight()));
 
     }
 
@@ -54,8 +56,8 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
         g.setWindowWidth(getWidth());
         g.setIszeromass(true);
 
-        Log.d("TJG", "Global Get Width Content View Surface Created" + Integer.toString(g.getWindowWidth()));
-        Log.d("TJG", "Global Get Height Content View Surface Created" + Integer.toString(g.getWindowHeight()));
+     //   Log.d("TJG", "Global Get Width Content View Surface Created" + Integer.toString(g.getWindowWidth()));
+     //   Log.d("TJG", "Global Get Height Content View Surface Created" + Integer.toString(g.getWindowHeight()));
         gravController = GravController.getInstance(getHolder());
 
         thread.setRunning(true);

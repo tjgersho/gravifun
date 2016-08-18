@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -24,6 +25,7 @@ public class GravController  {
          this.surfaceHolder = surfaceHolder;
 
     }
+
     private SurfaceHolder surfaceHolder;
     public static GravController getInstance(SurfaceHolder surfaceHolder){
         if(instance == null){
@@ -34,6 +36,8 @@ public class GravController  {
     }
 
     Globals g = Globals.getInstance();
+    private MediaPlayer destroyPlayer = MediaPlayer.create(g.getAppContext(), R.raw.bottlepop);
+    private MediaPlayer spawnPlayer = MediaPlayer.create(g.getAppContext(), R.raw.bottlepop);
 
     private int windowWidth = g.getWindowWidth();
     private int windowHeight = g.getWindowHeight();
@@ -182,6 +186,7 @@ synchronized (masses) {
       for (Destroyer de : destroyList){
          // Log.d("TJG", "Destry loop de "+ Integer.toString(de.who));
           masses.remove(de.who);
+          destroyPlayer.start();
       }
 
     //Log.d("TJG", "Number of masses " + Integer.toString(masses.size()));
@@ -197,13 +202,15 @@ synchronized (masses) {
       double y = Math.random()*windowHeight;
       //Log.d("TJG", "SPAWN MASS X: " + Double.toString(x) + "  Width " + Integer.toString(windowWidth));
       masses.add(new Mass(x, y));
+
   }
   public synchronized void   addMass(float x, float y){
       try {
           synchronized (instance.surfaceHolder) {
               masses.add(new Mass(x, y));
-
+              spawnPlayer.start();
               pnter.updatePos((int) x,(int)y);
+
           }
       }catch (Exception e){
          Log.d("TJG", "Error Adding mass " + e.getMessage());

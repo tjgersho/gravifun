@@ -1,5 +1,8 @@
 package com.ParadigmMotion.GraviFun;
 
+
+import android.content.Context;
+
 /**
  * Created by tjgersho on 8/16/16.
  */
@@ -9,7 +12,9 @@ public class Globals {
 
     private int windowWidth;
     private int windowHeight;
-    private Globals(){}
+    private Globals(){
+
+    }
     private boolean iszeromass;
     private boolean isdarkenergy;
     private boolean issingularity;
@@ -56,5 +61,13 @@ public class Globals {
             instance = new Globals();
         }
         return instance;
+    }
+
+    private  Context context;
+    public void setContext (Context con){
+        this.context = con;
+    }
+    public Context getAppContext(){
+        return this.context;
     }
 }
