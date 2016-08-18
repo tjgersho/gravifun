@@ -25,7 +25,7 @@ public class Mass {
 
     private int windowWidth =   g.getWindowWidth();
     private int windowHeight = g.getWindowHeight();
-    private int color;
+    public int color;
     public Paint paint;
 
 

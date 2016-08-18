@@ -4,6 +4,8 @@ package com.ParadigmMotion.GraviFun;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RadialGradient;
+import android.graphics.Shader;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -204,10 +206,36 @@ synchronized (masses) {
 
           drawButtons(canvas);
 
-          for (Mass mass : masses) {
-              canvas.drawCircle((int) mass.posX, (int) mass.posY, (int) mass.diameter, mass.paint);
+          for (Mass mass : masses)
+              if (mass.radius > 0.03 * windowWidth && mass.radius <= 0.28 * windowWidth) {
 
-          }
+                  float[] stopsGradient = new float[]{0, 0.5f, 1};
+                  int[] colorsGradient = new int[]{Color.WHITE, Color.RED, Color.BLUE};
+                  float xC = (float) mass.posX;
+                  float yC = (float) mass.posY;
+                  RadialGradient radialGradient = new RadialGradient(xC, yC, (float) ((float) mass.radius * 0.5), colorsGradient, stopsGradient, Shader.TileMode.CLAMP);
+
+                  mass.paint.setDither(true);
+                  mass.paint.setAntiAlias(true);
+
+                  mass.paint.setShader(radialGradient);
+                  canvas.drawCircle((float)mass.posX, (float)mass.posY, (float)mass.radius, mass.paint);
+
+              } else if (mass.radius > 0.28 * windowWidth) {
+                  float[] stopsGradient = new float[]{0, 0.5f, 1};
+                  int[] colorsGradient = new int[]{mass.color, Color.WHITE, Color.WHITE};
+                  float xC = (float) mass.posX;
+                  float yC = (float) mass.posY;
+                  RadialGradient radialGradient = new RadialGradient(xC, yC, (float) ((float) mass.radius), colorsGradient, stopsGradient, Shader.TileMode.CLAMP);
+
+                  mass.paint.setDither(true);
+                  mass.paint.setAntiAlias(true);
+
+                  mass.paint.setShader(radialGradient);
+                  canvas.drawCircle((float)mass.posX, (float)mass.posY, (float)mass.radius, mass.paint);
+              } else {
+                  canvas.drawCircle((int) mass.posX, (int) mass.posY, (int) mass.diameter, mass.paint);
+              }
 
           canvas.drawCircle((int)pnter.x, (int)pnter.y, (int) pnter.diameter(), pnter.paint);
 
@@ -237,8 +265,7 @@ synchronized (masses) {
         float btnheight = (float)0.05*windowHeight;
         float topbtnwidth = (float)0.25*windowWidth;
         float bottmbtnwidth = (float)windowWidth/3;
-            Log.d("TJG", "Btn height" + Float.toString(btnheight));
-        //Log.d("TJG", "Bottom Btn Width" + Float.toString(bottmbtnwidth));
+
         float topbtny = 0;
         float grav0origx = 0;
         float grav10origx = topbtnwidth;
@@ -246,7 +273,7 @@ synchronized (masses) {
         float grav100origx = 3*topbtnwidth;
 
         float bottmbtny = windowHeight-btnheight;
-        Log.d("TJG", "Bottom Btn Y" + Float.toString(bottmbtny));
+
         float darkorigx = 0;
         float zeroorigx = bottmbtnwidth;
         float singorigx = 2*bottmbtnwidth;
@@ -261,12 +288,6 @@ synchronized (masses) {
         drawBtn("Grav-10", textSize , Color.WHITE, Color.argb(100,50,50,50), grav10origx, topbtny, topbtnwidth, btnheight, txtPaint, grav10BtnPaint, canvas);
         drawBtn("Grav-50", textSize , Color.WHITE, Color.argb(100,100,200,100), grav50origx, topbtny, topbtnwidth, btnheight, txtPaint, grav50BtnPaint, canvas);
         drawBtn("Grav-100", textSize , Color.WHITE, Color.argb(100,200,50,100), grav100origx, topbtny, topbtnwidth, btnheight, txtPaint, grav100BtnPaint, canvas);
-
-
-
-
-
-
 
 
     }
