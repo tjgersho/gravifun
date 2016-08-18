@@ -59,7 +59,10 @@ public class GravController  {
 
 
   public void update(){
-
+      windowWidth = g.getWindowWidth();
+      windowHeight= g.getWindowHeight();
+     // Log.d("TJG", "Win Width " + Integer.toString(windowWidth));
+     // Log.d("TJG", "Win Height " + Integer.toString(windowHeight));
 
       GravC = 1000*((double)windowWidth/1920);
 
@@ -87,15 +90,17 @@ public class GravController  {
 
       List<Absorber> absorbList = new ArrayList<>();
 
-      int[] destroyArray = new int[masses.size()];
+      List<Destroyer> destroyList = new ArrayList<>();
+
       int me = 0;
-      int them = 0;
+
+
 synchronized (masses) {
     for (Mass mass_me : masses) {
 
         mass_me.forceX = 0;
         mass_me.forceY = 0;
-
+        int them = 0;
         for (Mass mass_them : masses) {
 
 
@@ -151,26 +156,52 @@ synchronized (masses) {
         mass_me.forceY = mass_me.forceY + forceEarth*(distYEarth/distEarth);
 
         if(mass_me.radius > windowWidth*0.3){
-            //destroyArray[dest]
+            destroyList.add(new Destroyer(me));
         }
 
         me++;
     }
-   }
+
      // Log.d("TJG", "Mass Data " + Double.toString(masses.get(1).forceX));
 
     //  Log.d("TJG", "PosX " + Double.toString(masses.get(1).posX));
     //  Log.d("TJG", "VelX " + Double.toString(masses.get(1).velX));
 
+   for (Absorber abs : absorbList){
+       double prevMass = masses.get(abs.who).mass();
+       double velInitialX = masses.get(abs.who).velX;
+       double velInitialY = masses.get(abs.who).velY;
 
+       masses.get(abs.who).radius = Math.sqrt(Math.pow(masses.get(abs.who).radius,2) + Math.pow(masses.get(abs.absorbs).radius,2));
 
+       masses.get(abs.who).velX = (masses.get(abs.who).velX*prevMass + masses.get(abs.absorbs).velX*masses.get(abs.absorbs).mass())/(prevMass + masses.get(abs.absorbs).mass());
+       masses.get(abs.who).velY = (masses.get(abs.who).velY*prevMass + masses.get(abs.absorbs).velY*masses.get(abs.absorbs).mass())/(prevMass + masses.get(abs.absorbs).mass());
+
+       masses.get(abs.who).forceX = masses.get(abs.who).forceX + 0.1*(masses.get(abs.who).mass()*(masses.get(abs.absorbs).velX-velInitialX))/delta_t;
+       masses.get(abs.who).forceY = masses.get(abs.who).forceY + 0.1*(masses.get(abs.who).mass()*(masses.get(abs.absorbs).velY-velInitialY))/delta_t;
+
+       masses.remove(abs.absorbs);
+       spawnMass();
+
+   }
+
+      for (Destroyer de : destroyList){
+         // Log.d("TJG", "Destry loop de "+ Integer.toString(de.who));
+          masses.remove(de.who);
+      }
+
+    //Log.d("TJG", "Number of masses " + Integer.toString(masses.size()));
+
+      destroyList.clear();
+      absorbList.clear();
+     } // End Sycronize
   }
 
-  public void spawnMasses(){
+  public void spawnMass(){
 
       double x = Math.random()*windowWidth;
       double y = Math.random()*windowHeight;
-      Log.d("TJG", "SPAWN MASS X: " + Double.toString(x) + "  Width " + Integer.toString(windowWidth));
+      //Log.d("TJG", "SPAWN MASS X: " + Double.toString(x) + "  Width " + Integer.toString(windowWidth));
       masses.add(new Mass(x, y));
   }
   public synchronized void   addMass(float x, float y){
@@ -181,7 +212,7 @@ synchronized (masses) {
               pnter.updatePos((int) x,(int)y);
           }
       }catch (Exception e){
-          Log.d("TJG", "Error Adding mass " + e.getMessage());
+         Log.d("TJG", "Error Adding mass " + e.getMessage());
       }
   }
     public void clearMasses(){
@@ -189,9 +220,9 @@ synchronized (masses) {
     }
 
     public int runballs(int qty){
-        Log.d("TJG", "Run Balls qty: " + Integer.toString(qty) );
+      //  Log.d("TJG", "Run Balls qty: " + Integer.toString(qty) );
         if(masses.size()<qty){
-            spawnMasses();
+            spawnMass();
             return runballs(qty);
         }else{
 
@@ -292,8 +323,6 @@ synchronized (masses) {
 
     }
 
-  //public void run(Canvas canvas){
-  // drawSpace(canvas);
-  //}
+
 
 }

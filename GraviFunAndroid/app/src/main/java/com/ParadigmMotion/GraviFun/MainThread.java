@@ -43,6 +43,7 @@ public class MainThread extends Thread {
         long tickCount = 0L;
         Log.d("TJG", "On Draw: ");
           gravController = GravController.getInstance(this.surfaceHolder);
+
             gravController.runballs(10);
 
         while(running){

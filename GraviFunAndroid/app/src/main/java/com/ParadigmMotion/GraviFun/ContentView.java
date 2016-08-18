@@ -52,6 +52,7 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
 
         g.setWindowHeight(getHeight());
         g.setWindowWidth(getWidth());
+        g.setIszeromass(true);
 
         Log.d("TJG", "Global Get Width Content View Surface Created" + Integer.toString(g.getWindowWidth()));
         Log.d("TJG", "Global Get Height Content View Surface Created" + Integer.toString(g.getWindowHeight()));
@@ -78,10 +79,43 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent event){
         Log.d("TJG", "MOtion Event");
         if(event.getAction() == MotionEvent.ACTION_DOWN){
-            if(event.getY() > getHeight() - 50){
+             int btn;
+            if((btn = whichButton(event)) != 0){
 
-                thread.setRunning(false);
-                ((Activity)getContext()).finish();
+                switch (btn){
+                    case 1:
+                        gravController.clearMasses();
+
+                        break;
+                    case 2:
+                        gravController.clearMasses();
+                        gravController.runballs(10);
+                        break;
+                    case 3:
+                        gravController.clearMasses();
+                        gravController.runballs(50);
+                        break;
+                    case 4:
+                        gravController.clearMasses();
+                        gravController.runballs(100);
+                        break;
+                    case 5:
+                        g.setIssingularity(true);
+                        g.setIszeromass(false);
+                        g.setIsdarkenergy(false);
+                        break;
+                    case 6:
+                        g.setIssingularity(false);
+                        g.setIszeromass(true);
+                        g.setIsdarkenergy(false);
+                        break;
+                    case 7:
+                        g.setIssingularity(false);
+                        g.setIszeromass(false);
+                        g.setIsdarkenergy(true);
+                        break;
+                }
+
 
             }else{
                 Log.d(TAG, "Coords: x=" + event.getX() + ",y= "+ event.getY());
@@ -93,6 +127,45 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
 
 
         return super.onTouchEvent(event);
+    }
+
+    private int whichButton(MotionEvent event){
+
+        float clickY = event.getY();
+        float clickX = event.getX();
+
+        if(clickY>(float)0.05*getHeight() && clickY < getHeight()-0.05*getHeight()){
+            return 0;
+        }else{
+
+            if(clickY<-(float)0.05*getHeight()){  /// Is Grav-#
+
+                if(clickX < getWidth()/4){
+                    return 1;
+                }else if(clickX > getWidth()/4 && clickX < getWidth()/2){
+                    return 2;
+                }else if(clickX > getWidth()/2 && clickX < 3/4*getWidth()){
+                    return 3;
+                }else{
+                    return 4;
+                }
+
+
+            }else{  // is Pointer Mass Setting
+
+                if(clickX < getWidth()/3) {
+                    return 5;
+                }else if(clickX > getWidth()/3 && clickX < 2/3*getWidth()) {
+                    return 6;
+                }else{
+                    return 7;
+                }
+
+            }
+
+        }
+
+
     }
 
     @Override
