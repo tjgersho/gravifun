@@ -39,10 +39,9 @@ public class GravController  {
     private int windowHeight = g.getWindowHeight();
 
     private double GravC;
-    //private long druation = 1000;
+
     private double currentTime = System.currentTimeMillis();
-    //private  long startTime = currentTime;
-    //private static long runTime = 0;
+
     private double now;
     private static PointerGrav pnter = new PointerGrav(0,0);
     private volatile List<Mass> masses = new ArrayList<Mass>();
@@ -61,10 +60,9 @@ public class GravController  {
   public void update(){
       windowWidth = g.getWindowWidth();
       windowHeight= g.getWindowHeight();
-     // Log.d("TJG", "Win Width " + Integer.toString(windowWidth));
-     // Log.d("TJG", "Win Height " + Integer.toString(windowHeight));
 
-      GravC = 1000*((double)windowWidth/1920);
+
+      GravC = 500*((double)windowWidth/1920);
 
       now = System.currentTimeMillis();
 
@@ -85,7 +83,6 @@ public class GravController  {
           mass.velX = relaxation* mass.velX + mass.forceX/mass.mass() * delta_t;
           mass.velY = relaxation* mass.velY + mass.forceY/mass.mass() * delta_t;
 
-          //Log.d("TJG", "Mass Check " + Double.toString(mass.mass()));
       }
 
       List<Absorber> absorbList = new ArrayList<>();
@@ -136,10 +133,6 @@ synchronized (masses) {
                 double force = GravC * mass_me.mass() * mass_them.mass() / (dist * dist);
 
 
-               // Log.d("TJG", "Force " + Double.toString(force));
-               // Log.d("TJG", "DistX " + Double.toString(distX));
-               // Log.d("TJG", "Dist " + Double.toString(dist));
-
                 mass_me.forceX = mass_me.forceX + force * (distX / dist);
                 mass_me.forceY = mass_me.forceY + force * (distY / dist);
 
@@ -154,6 +147,7 @@ synchronized (masses) {
 
         mass_me.forceX = mass_me.forceX + forceEarth*(distXEarth/distEarth);
         mass_me.forceY = mass_me.forceY + forceEarth*(distYEarth/distEarth);
+        mass_me.stayOnScreen();
 
         if(mass_me.radius > windowWidth*0.3){
             destroyList.add(new Destroyer(me));
@@ -241,10 +235,10 @@ synchronized (masses) {
               if (mass.radius > 0.03 * windowWidth && mass.radius <= 0.28 * windowWidth) {
 
                   float[] stopsGradient = new float[]{0, 0.5f, 1};
-                  int[] colorsGradient = new int[]{Color.WHITE, Color.RED, Color.BLUE};
+                  int[] colorsGradient = new int[]{Color.BLUE, Color.WHITE, mass.color};
                   float xC = (float) mass.posX;
                   float yC = (float) mass.posY;
-                  RadialGradient radialGradient = new RadialGradient(xC, yC, (float) ((float) mass.radius * 0.5), colorsGradient, stopsGradient, Shader.TileMode.CLAMP);
+                  RadialGradient radialGradient = new RadialGradient(xC, yC, (float) ((float) mass.radius * 0.7), colorsGradient, stopsGradient, Shader.TileMode.CLAMP);
 
                   mass.paint.setDither(true);
                   mass.paint.setAntiAlias(true);
@@ -254,10 +248,10 @@ synchronized (masses) {
 
               } else if (mass.radius > 0.28 * windowWidth) {
                   float[] stopsGradient = new float[]{0, 0.5f, 1};
-                  int[] colorsGradient = new int[]{mass.color, Color.WHITE, Color.WHITE};
+                  int[] colorsGradient = new int[]{Color.BLACK, Color.WHITE, mass.color};
                   float xC = (float) mass.posX;
                   float yC = (float) mass.posY;
-                  RadialGradient radialGradient = new RadialGradient(xC, yC, (float) ((float) mass.radius), colorsGradient, stopsGradient, Shader.TileMode.CLAMP);
+                  RadialGradient radialGradient = new RadialGradient(xC, yC, (float) ((float) mass.radius * 0.8), colorsGradient, stopsGradient, Shader.TileMode.CLAMP);
 
                   mass.paint.setDither(true);
                   mass.paint.setAntiAlias(true);

@@ -41,7 +41,7 @@ public class Mass {
        int r = (int)Math.floor(Math.random()*255);
        int g = (int)Math.floor(Math.random()*255);
        int b = (int)Math.floor(Math.random()*255);
-       Log.d("TJG", "Red "+ Integer.toString(r) + ", Green "+ Integer.toString(g) + ", Blue "+ Integer.toString(b));
+      // Log.d("TJG", "Red "+ Integer.toString(r) + ", Green "+ Integer.toString(g) + ", Blue "+ Integer.toString(b));
 
        color = Color.argb(255, r, g, b);
 
@@ -57,10 +57,7 @@ public class Mass {
 
     }
 
-    public void absorb(double r){
-        this.radius++;
 
-    }
 
     public void stayOnScreen(){
 

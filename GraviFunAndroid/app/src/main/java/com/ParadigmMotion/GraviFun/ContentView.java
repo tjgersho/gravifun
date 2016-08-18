@@ -81,28 +81,39 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
         if(event.getAction() == MotionEvent.ACTION_DOWN){
              int btn;
             if((btn = whichButton(event)) != 0){
-
+               Log.d("TJG", "Event Case: "+ Integer.toString(btn));
                 switch (btn){
                     case 1:
                         gravController.clearMasses();
-
+                        g.setIssingularity(false);
+                        g.setIszeromass(true);
+                        g.setIsdarkenergy(false);
                         break;
                     case 2:
                         gravController.clearMasses();
+                        g.setIssingularity(false);
+                        g.setIszeromass(true);
+                        g.setIsdarkenergy(false);
                         gravController.runballs(10);
                         break;
                     case 3:
                         gravController.clearMasses();
+                        g.setIssingularity(false);
+                        g.setIszeromass(true);
+                        g.setIsdarkenergy(false);
                         gravController.runballs(50);
                         break;
                     case 4:
                         gravController.clearMasses();
+                        g.setIssingularity(false);
+                        g.setIszeromass(true);
+                        g.setIsdarkenergy(false);
                         gravController.runballs(100);
                         break;
                     case 5:
-                        g.setIssingularity(true);
+                        g.setIssingularity(false);
                         g.setIszeromass(false);
-                        g.setIsdarkenergy(false);
+                        g.setIsdarkenergy(true);
                         break;
                     case 6:
                         g.setIssingularity(false);
@@ -110,9 +121,9 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
                         g.setIsdarkenergy(false);
                         break;
                     case 7:
-                        g.setIssingularity(false);
+                        g.setIssingularity(true);
                         g.setIszeromass(false);
-                        g.setIsdarkenergy(true);
+                        g.setIsdarkenergy(false);
                         break;
                 }
 
@@ -134,11 +145,11 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
         float clickY = event.getY();
         float clickX = event.getX();
 
-        if(clickY>(float)0.05*getHeight() && clickY < getHeight()-0.05*getHeight()){
+        if(clickY>(float)0.05*getHeight() && clickY < (float)(getHeight()-0.05*getHeight())){
             return 0;
         }else{
 
-            if(clickY<-(float)0.05*getHeight()){  /// Is Grav-#
+            if(clickY < (float)0.05*getHeight()){  /// Is Grav-#
 
                 if(clickX < getWidth()/4){
                     return 1;

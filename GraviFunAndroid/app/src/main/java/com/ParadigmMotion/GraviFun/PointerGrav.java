@@ -49,11 +49,11 @@ public class PointerGrav {
         }
 
         if(g.getIssingularity()){
-            return 1000000;
+            return 10000;
         }
 
         if(g.getiddarkenergy()){
-            return -100000;
+            return -10000;
         }else{
 
             return 0;
