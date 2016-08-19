@@ -53,7 +53,7 @@ public class Mass {
 
     public double mass(){
       // Log.d("TJG", "MASS Rad" + Double.toString(this.radius));
-         return this.radius*this.radius*Math.PI*(1920/Math.min(windowWidth,windowHeight));
+         return 0.5*this.radius*this.radius*Math.PI*(1920/Math.min(windowWidth,windowHeight));
 
     }
 

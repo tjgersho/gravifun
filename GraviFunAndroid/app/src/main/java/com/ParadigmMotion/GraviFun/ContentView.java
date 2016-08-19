@@ -157,7 +157,7 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
                     return 1;
                 }else if(clickX > getWidth()/4 && clickX < getWidth()/2){
                     return 2;
-                }else if(clickX > getWidth()/2 && clickX < 3/4*getWidth()){
+                }else if(clickX > getWidth()/2 && clickX < (float)3/4*getWidth()){
                     return 3;
                 }else{
                     return 4;
@@ -168,7 +168,7 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
 
                 if(clickX < getWidth()/3) {
                     return 5;
-                }else if(clickX > getWidth()/3 && clickX < 2/3*getWidth()) {
+                }else if(clickX > getWidth()/3 && clickX < (float) 2/3*getWidth()) {
                     return 6;
                 }else{
                     return 7;

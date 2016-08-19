@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
-import android.media.MediaPlayer;
+//import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -36,8 +36,8 @@ public class GravController  {
     }
 
     Globals g = Globals.getInstance();
-    private MediaPlayer destroyPlayer = MediaPlayer.create(g.getAppContext(), R.raw.bottlepop);
-    private MediaPlayer spawnPlayer = MediaPlayer.create(g.getAppContext(), R.raw.bottlepop);
+   // private MediaPlayer destroyPlayer = MediaPlayer.create(g.getAppContext(), R.raw.bottlepop);
+   // private MediaPlayer spawnPlayer = MediaPlayer.create(g.getAppContext(), R.raw.bottlepop);
 
     private int windowWidth = g.getWindowWidth();
     private int windowHeight = g.getWindowHeight();
@@ -80,8 +80,8 @@ public class GravController  {
            mass.posY = mass.posY + delta_t*mass.velY;
 
           double relaxation = 1.0;
-          if(Math.sqrt(Math.pow(mass.velX,2)+Math.pow(mass.velX,2))*mass.mass() > 20){
-              relaxation  = 0.95;
+          if(Math.sqrt(Math.pow(mass.velX,2)+Math.pow(mass.velX,2))*mass.mass() > 30){
+              relaxation  = 0.98;
           }
 
           mass.velX = relaxation* mass.velX + mass.forceX/mass.mass() * delta_t;
@@ -186,7 +186,7 @@ synchronized (masses) {
       for (Destroyer de : destroyList){
          // Log.d("TJG", "Destry loop de "+ Integer.toString(de.who));
           masses.remove(de.who);
-          destroyPlayer.start();
+          ///destroyPlayer.start();
       }
 
     //Log.d("TJG", "Number of masses " + Integer.toString(masses.size()));
@@ -208,7 +208,7 @@ synchronized (masses) {
       try {
           synchronized (instance.surfaceHolder) {
               masses.add(new Mass(x, y));
-              spawnPlayer.start();
+              //spawnPlayer.start();
               pnter.updatePos((int) x,(int)y);
 
           }
@@ -236,7 +236,7 @@ synchronized (masses) {
       if(canvas != null) {
           canvas.drawColor(Color.argb(100, 0, 0, 0));
 
-          drawButtons(canvas);
+
 
           for (Mass mass : masses)
               if (mass.radius > 0.03 * windowWidth && mass.radius <= 0.28 * windowWidth) {
@@ -270,7 +270,7 @@ synchronized (masses) {
               }
 
           canvas.drawCircle((int)pnter.x, (int)pnter.y, (int) pnter.diameter(), pnter.paint);
-
+          drawButtons(canvas);
       }
    }
     private void drawBtn(String txt, int txtSize, int colortxt, int colorbtn, float cx,
