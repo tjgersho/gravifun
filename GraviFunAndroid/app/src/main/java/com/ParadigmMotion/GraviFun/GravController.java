@@ -24,6 +24,7 @@ public class GravController  {
     protected GravController(SurfaceHolder surfaceHolder){
          this.surfaceHolder = surfaceHolder;
 
+        masses = new ArrayList<Mass>();
     }
 
     private SurfaceHolder surfaceHolder;
@@ -48,7 +49,7 @@ public class GravController  {
 
     private double now;
     private static PointerGrav pnter = new PointerGrav(0,0);
-    private volatile List<Mass> masses = new ArrayList<Mass>();
+    private volatile List<Mass> masses;
 
 
     private Paint singularityBtnPaint = new Paint();
@@ -71,6 +72,7 @@ public class GravController  {
 
       if(g.getMassestoadd().size()>0){
           for (GravPoint pt : g.getMassestoadd()){
+              Log.d("TJG", "Adding pts " + Double.toString(pt.x) + " y: "+ Double.toString(pt.y));
               this.addMass(pt.x, pt.y);
           }
       }
@@ -208,6 +210,8 @@ public class GravController  {
       g.clearAddmasses();
       g.setShouldRunBalls(false);
       g.setShoudClear(false);
+
+      Log.d("TJG", "Number of points "+ Integer.toString(masses.size()));
   }
 
   public void spawnMass(){
@@ -215,13 +219,13 @@ public class GravController  {
       double x = Math.random()*windowWidth;
       double y = Math.random()*windowHeight;
       //Log.d("TJG", "SPAWN MASS X: " + Double.toString(x) + "  Width " + Integer.toString(windowWidth));
-      masses.add(new Mass(x, y));
+      masses.add(new Mass(x, y, windowWidth, windowHeight));
 
   }
   public synchronized void   addMass(double x, double y){
 
 
-              masses.add(new Mass(x, y));
+              masses.add(new Mass(x, y, windowWidth, windowHeight));
               //spawnPlayer.start();
               pnter.updatePos((int) x,(int)y);
 

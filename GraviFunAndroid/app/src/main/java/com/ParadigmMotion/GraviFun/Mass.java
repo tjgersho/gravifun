@@ -21,17 +21,17 @@ public class Mass {
     public double diameter;
 
 
-    Globals g = Globals.getInstance();
 
-    private int windowWidth =   g.getWindowWidth();
-    private int windowHeight = g.getWindowHeight();
+    private int windowWidth;
+    private int windowHeight;
     public int color;
     public Paint paint;
 
 
 
-   public Mass(double x, double y){
-
+   public Mass(double x, double y, int windowWidth, int windowHeight){
+     this.windowWidth = windowWidth;
+       this.windowHeight = windowHeight;
        posX = x;
        posY = y;
 
