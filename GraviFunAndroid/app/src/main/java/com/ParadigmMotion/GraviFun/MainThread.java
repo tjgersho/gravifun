@@ -68,10 +68,10 @@ public class MainThread extends Thread {
                         beginTime = System.currentTimeMillis();
                         framesSkipped = 0;	// resetting the frames skipped
                         // update game state
-                        this.contentView.update();
+                        this.gravController.update();
                         // render state to the screen
                         // draws the canvas on the panel
-                        this.contentView.render(canvas);
+                        this.gravController.drawSpace(canvas);
                         // calculate how long did the cycle take
                         timeDiff = System.currentTimeMillis() - beginTime;
                         // calculate sleep time
@@ -89,7 +89,7 @@ public class MainThread extends Thread {
                         while (sleepTime < 0 && framesSkipped < MAX_FRAME_SKIPS) {
                             // we need to catch up
                             // update without rendering
-                            this.contentView.update();
+                            this.gravController.update();
                             // add frame period to check if in next frame
                             sleepTime += FRAME_PERIOD;
                             framesSkipped++;

@@ -61,10 +61,22 @@ public class GravController  {
     private Paint txtPaint = new Paint();
 
 
-  public void update(){
+  public synchronized void update(){
       windowWidth = g.getWindowWidth();
       windowHeight= g.getWindowHeight();
 
+      if(g.shouldclearMasses()){
+          this.clearMasses();
+      }
+
+      if(g.getMassestoadd().size()>0){
+          for (GravPoint pt : g.getMassestoadd()){
+              this.addMass(pt.x, pt.y);
+          }
+      }
+      if(g.getShouldRunBalls()){
+          this.runballs(g.getBallstorun());
+      }
 
       GravC = 500*((double)windowWidth/1920);
 
@@ -96,7 +108,7 @@ public class GravController  {
       int me = 0;
 
 
-synchronized (masses) {
+
     for (Mass mass_me : masses) {
 
         mass_me.forceX = 0;
@@ -193,7 +205,9 @@ synchronized (masses) {
 
       destroyList.clear();
       absorbList.clear();
-     } // End Sycronize
+      g.clearAddmasses();
+      g.setShouldRunBalls(false);
+      g.setShoudClear(false);
   }
 
   public void spawnMass(){
@@ -204,17 +218,14 @@ synchronized (masses) {
       masses.add(new Mass(x, y));
 
   }
-  public synchronized void   addMass(float x, float y){
-      try {
-          synchronized (instance.surfaceHolder) {
+  public synchronized void   addMass(double x, double y){
+
+
               masses.add(new Mass(x, y));
               //spawnPlayer.start();
               pnter.updatePos((int) x,(int)y);
 
-          }
-      }catch (Exception e){
-         Log.d("TJG", "Error Adding mass " + e.getMessage());
-      }
+
   }
     public void clearMasses(){
         masses.clear();
@@ -232,10 +243,9 @@ synchronized (masses) {
 
     }
 
-  public void drawSpace(Canvas canvas){
+  public synchronized void drawSpace(Canvas canvas){
       if(canvas != null) {
           canvas.drawColor(Color.argb(100, 0, 0, 0));
-
 
 
           for (Mass mass : masses)
@@ -251,7 +261,7 @@ synchronized (masses) {
                   mass.paint.setAntiAlias(true);
 
                   mass.paint.setShader(radialGradient);
-                  canvas.drawCircle((float)mass.posX, (float)mass.posY, (float)mass.radius, mass.paint);
+                  canvas.drawCircle((float) mass.posX, (float) mass.posY, (float) mass.radius, mass.paint);
 
               } else if (mass.radius > 0.28 * windowWidth) {
                   float[] stopsGradient = new float[]{0, 0.5f, 1};
@@ -264,14 +274,14 @@ synchronized (masses) {
                   mass.paint.setAntiAlias(true);
 
                   mass.paint.setShader(radialGradient);
-                  canvas.drawCircle((float)mass.posX, (float)mass.posY, (float)mass.radius, mass.paint);
+                  canvas.drawCircle((float) mass.posX, (float) mass.posY, (float) mass.radius, mass.paint);
               } else {
                   canvas.drawCircle((int) mass.posX, (int) mass.posY, (int) mass.diameter, mass.paint);
               }
-
-          canvas.drawCircle((int)pnter.x, (int)pnter.y, (int) pnter.diameter(), pnter.paint);
+          }
+          canvas.drawCircle(pnter.x, pnter.y, (int) pnter.diameter(), pnter.paint);
           drawButtons(canvas);
-      }
+
    }
     private void drawBtn(String txt, int txtSize, int colortxt, int colorbtn, float cx,
                          float cy, float rectwidth, float rectheight,

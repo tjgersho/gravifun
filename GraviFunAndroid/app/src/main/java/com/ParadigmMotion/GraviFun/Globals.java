@@ -3,6 +3,9 @@ package com.ParadigmMotion.GraviFun;
 
 import android.content.Context;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * Created by tjgersho on 8/16/16.
  */
@@ -62,6 +65,50 @@ public class Globals {
         }
         return instance;
     }
+
+
+
+    private ArrayList<GravPoint> addmassarray = new ArrayList<>();
+
+    public void addMass(double x, double y){
+        GravPoint mass = new GravPoint(x,y);
+        addmassarray.add(mass);
+    }
+
+    public ArrayList<GravPoint> getMassestoadd(){
+        return this.addmassarray;
+    }
+
+    public void clearAddmasses(){
+        this.addmassarray.clear();
+    }
+
+    private boolean shoudClear;
+
+    public void setShoudClear(boolean b){
+        this.shoudClear = b;
+    }
+
+
+    public boolean shouldclearMasses(){
+            return this.shoudClear;
+    }
+
+    private boolean shouldRunBalls;
+
+    public void setShouldRunBalls(boolean b){
+        this.shouldRunBalls = b;
+    }
+    public boolean getShouldRunBalls(){
+        return this.shouldRunBalls;
+    }
+
+    private int ballstorun;
+    public void runballs(int n){
+        this.ballstorun = n;
+    }
+    public int getBallstorun(){return this.ballstorun;}
+
 
     private  Context context;
     public void setContext (Context con){

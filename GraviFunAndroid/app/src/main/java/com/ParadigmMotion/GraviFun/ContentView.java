@@ -39,7 +39,7 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){
         getHolder().addCallback(this);
-        thread = new MainThread(getHolder(), this);
+       // thread = new MainThread(getHolder(), this);
 
         g.setWindowHeight(height);
         g.setWindowWidth(width);
@@ -79,38 +79,46 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
     }
     @Override
     public boolean onTouchEvent(MotionEvent event){
-        Log.d("TJG", "MOtion Event");
+        Log.d("TJG", "MOtion Event"+ Integer.toString(event.getAction()));
         if(event.getAction() == MotionEvent.ACTION_DOWN){
              int btn;
             if((btn = whichButton(event)) != 0){
                Log.d("TJG", "Event Case: "+ Integer.toString(btn));
                 switch (btn){
                     case 1:
-                        gravController.clearMasses();
+                        g.setShoudClear(true);
+                        g.setShouldRunBalls(false);
+                        g.runballs(0);
                         g.setIssingularity(false);
                         g.setIszeromass(true);
                         g.setIsdarkenergy(false);
                         break;
                     case 2:
-                        gravController.clearMasses();
+                        g.setShoudClear(true);
+                        g.setShouldRunBalls(true);
+                        g.runballs(10);
                         g.setIssingularity(false);
                         g.setIszeromass(true);
                         g.setIsdarkenergy(false);
-                        gravController.runballs(10);
+
                         break;
                     case 3:
-                        gravController.clearMasses();
+                        g.setShoudClear(true);
+                        g.setShouldRunBalls(true);
+                        g.runballs(50);
                         g.setIssingularity(false);
                         g.setIszeromass(true);
                         g.setIsdarkenergy(false);
-                        gravController.runballs(50);
+
                         break;
                     case 4:
-                        gravController.clearMasses();
+                        g.setShoudClear(true);
+                        g.setShouldRunBalls(true);
+                        g.runballs(100);
                         g.setIssingularity(false);
                         g.setIszeromass(true);
                         g.setIsdarkenergy(false);
-                        gravController.runballs(100);
+
                         break;
                     case 5:
                         g.setIssingularity(false);
@@ -132,7 +140,7 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
 
             }else{
                 Log.d(TAG, "Coords: x=" + event.getX() + ",y= "+ event.getY());
-                 gravController.addMass(event.getX(), event.getY());
+                 g.addMass(event.getX(), event.getY());
             }
 
 
@@ -188,17 +196,5 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
 
-    protected void update(){
-        //Log.d("TJGU", "On Update: ");
 
-       gravController.update();
-
-    }
-
-
-    protected void render(Canvas canvas){
-       // Log.d("TJGR", "On Render: ");
-        gravController.drawSpace(canvas);
-
-    }
 }
