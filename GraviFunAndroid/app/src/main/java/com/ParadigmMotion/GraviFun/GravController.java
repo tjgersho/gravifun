@@ -3,16 +3,15 @@ package com.ParadigmMotion.GraviFun;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Interpolator;
 import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
-//import android.media.MediaPlayer;
 import android.media.MediaPlayer;
 import android.util.Log;
-import android.view.SurfaceHolder;
+
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by tjgersho on 8/16/16.
@@ -22,17 +21,18 @@ import java.util.List;
 
 public class GravController  {
     private static GravController instance = null;
-    protected GravController(SurfaceHolder surfaceHolder){
-         this.surfaceHolder = surfaceHolder;
+    protected GravController(){
 
-        masses = new ArrayList<Mass>();
+        masses = new ArrayList<>();
+       int  earthColor = Color.argb(255, 255, 255, 255);
+        earthPaint.setColor(earthColor);
+        earthPaint.setStyle(Paint.Style.STROKE);
+        earthPaint.setStrokeWidth(5);
     }
 
-    private SurfaceHolder surfaceHolder;
-    public static GravController getInstance(SurfaceHolder surfaceHolder){
+    public static GravController getInstance(){
         if(instance == null){
-            Log.d("TJG", "GraView Constructor");
-            instance = new GravController(surfaceHolder);
+            instance = new GravController();
         }
         return instance;
     }
@@ -44,13 +44,12 @@ public class GravController  {
     private int windowWidth = g.getWindowWidth();
     private int windowHeight = g.getWindowHeight();
 
-    private double GravC;
+
 
     private double currentTime = System.currentTimeMillis();
 
-    private double now;
-    private static PointerGrav pnter = new PointerGrav(-1000,-1000);
-    private volatile ArrayList<Mass> masses;
+
+    private  ArrayList<Mass> masses;
 
 
     private Paint singularityBtnPaint = new Paint();
@@ -63,159 +62,191 @@ public class GravController  {
     private Paint txtPaint = new Paint();
 
 
-  public synchronized void update(){
-      windowWidth = g.getWindowWidth();
-      windowHeight= g.getWindowHeight();
 
-      if(g.shouldclearMasses()){
-          this.clearMasses();
-      }
+    public Paint earthPaint = new Paint();
 
-      if(g.getMassestoadd().size()>0){
-          for (GravPoint pt : g.getMassestoadd()){
-              Log.d("TJG", "Adding pts " + Double.toString(pt.x) + " y: "+ Double.toString(pt.y));
-              this.addMass(pt.x, pt.y);
-          }
-      }
-      if(g.getShouldRunBalls()){
-          this.runballs(g.getBallstorun());
-      }
+    private double earthXpos = windowWidth/2;
+    private double earthYpos = windowHeight/2;
+    private double earthMass = 0.0001;
 
-      GravC = 500*((double)windowWidth/1920);
+    public double getEarthMass(){
 
-      now = System.currentTimeMillis();
-
-      double delta_t = (now - currentTime) / 1000;
-
-      currentTime = now;
-
-      for(Mass mass : masses) {
-
-           mass.posX = mass.posX + delta_t*mass.velX;
-           mass.posY = mass.posY + delta_t*mass.velY;
-
-          double relaxation = 1.0;
-          if(Math.sqrt(Math.pow(mass.velX,2)+Math.pow(mass.velX,2))*mass.mass() > 30){
-              relaxation  = 0.98;
-          }
-
-          mass.velX = relaxation* mass.velX + mass.forceX/mass.mass() * delta_t;
-          mass.velY = relaxation* mass.velY + mass.forceY/mass.mass() * delta_t;
-
-      }
-
-      ArrayList<Absorber> absorbList = new ArrayList<>();
-
-      ArrayList<Destroyer> destroyList = new ArrayList<>();
-
-      int me = 0;
-
-
-
-    for (Mass mass_me : masses) {
-
-        mass_me.forceX = 0;
-        mass_me.forceY = 0;
-        int them = 0;
-        for (Mass mass_them : masses) {
-
-
-            if (mass_me != mass_them) {
-
-                double distX = mass_them.posX - mass_me.posX;
-                double distY = mass_them.posY - mass_me.posY;
-
-                double dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
-
-                if (dist < (mass_them.radius + mass_me.radius)) {
-                    dist = mass_them.radius + mass_me.radius;
-                    if (mass_them.radius < mass_me.radius) {
-                        Boolean isInabsorblist = false;
-                        for (Absorber abs : absorbList) {
-
-                            if (abs.absorbs == me && abs.absorbs == them) {
-                                isInabsorblist = true;
-                                break;
-                            }
-
-                        }
-
-                        if (!isInabsorblist) {
-                            absorbList.add(new Absorber(me, them));
-
-                        }
-
-                    }
-
-                }
-
-                double force = GravC * mass_me.mass() * mass_them.mass() / (dist * dist);
-
-
-                mass_me.forceX = mass_me.forceX + force * (distX / dist);
-                mass_me.forceY = mass_me.forceY + force * (distY / dist);
-
-            }
-            them++;
+        if(g.getIszeromass()) {
+            return 0.0001;
         }
 
-         double distXEarth = pnter.x - mass_me.posX;
-         double distYEarth = pnter.y - mass_me.posY;
-
-
-         double distEarth = Math.sqrt(distXEarth * distXEarth + distYEarth*distYEarth);
-
-         double forceEarth = GravC*mass_me.mass()*pnter.mass()/(distEarth*distEarth);
-
-
-        mass_me.forceX = mass_me.forceX + forceEarth*(distXEarth/distEarth);
-        mass_me.forceY = mass_me.forceY + forceEarth*(distYEarth/distEarth);
-        mass_me.stayOnScreen();
-
-        if(mass_me.radius > windowWidth*0.3){
-            destroyList.add(new Destroyer(me));
+        if(g.getIssingularity()){
+            return 20000.0;
         }
 
-        me++;
+        if(g.getIsdarkenergy()){
+            return -20000.0;
+        }
+        return 0.0001;
     }
 
-     // Log.d("TJG", "Mass Data " + Double.toString(masses.get(1).forceX));
+  public  void update(){
 
-    //  Log.d("TJG", "PosX " + Double.toString(masses.get(1).posX));
-    //  Log.d("TJG", "VelX " + Double.toString(masses.get(1).velX));
+          windowWidth = g.getWindowWidth();
+          windowHeight = g.getWindowHeight();
 
-   for (Absorber abs : absorbList){
-       double prevMass = masses.get(abs.who).mass();
-       double velInitialX = masses.get(abs.who).velX;
-       double velInitialY = masses.get(abs.who).velY;
+          if (g.shouldclearMasses()) {
+              this.clearMasses();
+          }
 
-       masses.get(abs.who).radius = Math.sqrt(Math.pow(masses.get(abs.who).radius,2) + Math.pow(masses.get(abs.absorbs).radius,2));
+          if (g.getMassestoadd().size() > 0) {
+              for (GravPoint pt : g.getMassestoadd()) {
+                  Log.d("TJG", "Adding pts " + Double.toString(pt.x) + " y: " + Double.toString(pt.y));
+                  this.addMass(pt.x, pt.y);
+                  //g.moveEarth(pt.x, pt.y);
+              }
+              ArrayList<GravPoint> amarray = g.getMassestoadd();
 
-       masses.get(abs.who).velX = (masses.get(abs.who).velX*prevMass + masses.get(abs.absorbs).velX*masses.get(abs.absorbs).mass())/(prevMass + masses.get(abs.absorbs).mass());
-       masses.get(abs.who).velY = (masses.get(abs.who).velY*prevMass + masses.get(abs.absorbs).velY*masses.get(abs.absorbs).mass())/(prevMass + masses.get(abs.absorbs).mass());
+             // earthXpos = amarray.get(amarray.size() - 1).x;
+             // earthYpos = amarray.get(amarray.size() - 1).y;
+          }
 
-       masses.get(abs.who).forceX = masses.get(abs.who).forceX + 0.1*(masses.get(abs.who).mass()*(masses.get(abs.absorbs).velX-velInitialX))/delta_t;
-       masses.get(abs.who).forceY = masses.get(abs.who).forceY + 0.1*(masses.get(abs.who).mass()*(masses.get(abs.absorbs).velY-velInitialY))/delta_t;
-
-       masses.remove(abs.absorbs);
-       spawnMass();
-
-   }
+          if (g.getShouldRunBalls()) {
+              this.runballs(g.getBallstorun());
+          }
 
 
 
-     if(destroyList.size()>0){
-         destroyPlayer.start();
-         for (Destroyer de : destroyList){
-             masses.remove(de.who);
-         }
-     }
+          earthMass = getEarthMass();
 
+
+
+          double GravC = 500 * ((double) windowWidth / 1920);
+
+          double now = System.currentTimeMillis();
+
+          double delta_t = (now - currentTime) / 1000;
+
+          currentTime = now;
+
+          for (Mass mass : masses) {
+
+              mass.posX = mass.posX + delta_t * mass.velX;
+              mass.posY = mass.posY + delta_t * mass.velY;
+
+              double relaxation = 1.0;
+              if (Math.sqrt(Math.pow(mass.velX, 2) + Math.pow(mass.velY, 2)) * mass.mass() > 30) {
+                  relaxation = 0.98;
+              }
+
+              mass.velX = relaxation * mass.velX + mass.forceX / mass.mass() * delta_t;
+              mass.velY = relaxation * mass.velY + mass.forceY / mass.mass() * delta_t;
+
+          }
+
+          ArrayList<Absorber> absorbList = new ArrayList<>();
+
+          ArrayList<Destroyer> destroyList = new ArrayList<>();
+
+          int me = 0;
+
+
+          for (Mass mass_me : masses) {
+
+              mass_me.forceX = 0;
+              mass_me.forceY = 0;
+              int them = 0;
+              for (Mass mass_them : masses) {
+
+
+                  if (mass_me != mass_them) {
+
+                      double distX = mass_them.posX - mass_me.posX;
+                      double distY = mass_them.posY - mass_me.posY;
+
+                      double dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+
+                      if (dist < (mass_them.radius + mass_me.radius)) {
+                          dist = mass_them.radius + mass_me.radius;
+                          if (mass_them.radius < mass_me.radius) {
+                              Boolean isInabsorblist = false;
+                              for (Absorber abs : absorbList) {
+
+                                  if (abs.absorbs == me && abs.absorbs == them) {
+                                      isInabsorblist = true;
+                                      break;
+                                  }
+
+                              }
+
+                              if (!isInabsorblist) {
+                                  absorbList.add(new Absorber(me, them));
+
+                              }
+
+                          }
+
+                      }
+
+                      double force = GravC * mass_me.mass() * mass_them.mass() / (dist * dist);
+
+
+                      mass_me.forceX = mass_me.forceX + force * (distX / dist);
+                      mass_me.forceY = mass_me.forceY + force * (distY / dist);
+
+                  }
+                  them++;
+              }
+
+              double distXEarth = earthXpos - mass_me.posX;
+              double distYEarth = earthYpos - mass_me.posY;
+
+
+              double distEarth = Math.sqrt(distXEarth * distXEarth + distYEarth * distYEarth);
+              double forceEarth;
+             if(distEarth > 0) {
+                  forceEarth = GravC * mass_me.mass() * earthMass  / (distEarth * distEarth);
+             }else{
+                 forceEarth = 0;
+             }
+
+
+              mass_me.forceX = mass_me.forceX + forceEarth * (distXEarth / distEarth);
+              mass_me.forceY = mass_me.forceY + forceEarth * (distYEarth / distEarth);
+
+              mass_me.stayOnScreen();
+
+              if (mass_me.radius > windowWidth * 0.3) {
+                  destroyList.add(new Destroyer(me));
+              }
+
+              me++;
+          }
+
+
+          for (Absorber abs : absorbList) {
+              double prevMass = masses.get(abs.who).mass();
+              double velInitialX = masses.get(abs.who).velX;
+              double velInitialY = masses.get(abs.who).velY;
+
+              masses.get(abs.who).radius = Math.sqrt(Math.pow(masses.get(abs.who).radius, 2) + Math.pow(masses.get(abs.absorbs).radius, 2));
+
+              masses.get(abs.who).velX = (masses.get(abs.who).velX * prevMass + masses.get(abs.absorbs).velX * masses.get(abs.absorbs).mass()) / (prevMass + masses.get(abs.absorbs).mass());
+              masses.get(abs.who).velY = (masses.get(abs.who).velY * prevMass + masses.get(abs.absorbs).velY * masses.get(abs.absorbs).mass()) / (prevMass + masses.get(abs.absorbs).mass());
+
+              masses.get(abs.who).forceX = masses.get(abs.who).forceX + 0.1 * (masses.get(abs.who).mass() * (masses.get(abs.absorbs).velX - velInitialX)) / delta_t;
+              masses.get(abs.who).forceY = masses.get(abs.who).forceY + 0.1 * (masses.get(abs.who).mass() * (masses.get(abs.absorbs).velY - velInitialY)) / delta_t;
+
+              masses.remove(abs.absorbs);
+              spawnMass();
+
+          }
+
+
+          if (destroyList.size() > 0) {
+              destroyPlayer.start();
+              for (Destroyer de : destroyList) {
+                  masses.remove(de.who);
+              }
+          }
       destroyList.clear();
       absorbList.clear();
-      g.clearAddmasses();
-      g.setShouldRunBalls(false);
-      g.setShoudClear(false);
+      g.updateDone();
 
   }
 
@@ -226,18 +257,18 @@ public class GravController  {
       //Log.d("TJG", "SPAWN MASS X: " + Double.toString(x) + "  Width " + Integer.toString(windowWidth));
       masses.add(new Mass(x, y, windowWidth, windowHeight));
 
+     // Log.d("TJG", "Masses num " + Integer.toString(this.masses.size()));
   }
-  public synchronized void  addMass(double x, double y){
+  public  void  addMass(double x, double y){
 
-
-              masses.add(new Mass(x, y, windowWidth, windowHeight));
+              this.masses.add(new Mass(x, y, windowWidth, windowHeight));
               spawnPlayer.start();
-            //  pnter.updatePos( x, y);
-
+           //  Log.d("TJG", "Masses num " + Integer.toString(this.masses.size()));
 
   }
     public void clearMasses(){
         masses.clear();
+        g.setShoudClear(false);
     }
 
     public int runballs(int qty){
@@ -246,13 +277,13 @@ public class GravController  {
             spawnMass();
             return runballs(qty);
         }else{
-
+            g.setShouldRunBalls(false);
             return 1;
         }
 
     }
 
-  public synchronized void drawSpace(Canvas canvas){
+  public void drawSpace(Canvas canvas){
       if(canvas != null) {
           canvas.drawColor(Color.argb(255, 0, 0, 0));
 
@@ -287,11 +318,14 @@ public class GravController  {
               } else {
                   canvas.drawCircle((int) mass.posX, (int) mass.posY, (int) mass.diameter, mass.paint);
               }
-          }
-          canvas.drawCircle((float)g.getEarthLocX(), (float)g.getEarthLocY(), (int) pnter.diameter(), pnter.paint);
+          canvas.drawCircle((float)earthXpos, (float)earthYpos,  20, earthPaint);
           drawButtons(canvas);
+          }
+
+
 
    }
+
     private void drawBtn(String txt, int txtSize, int colortxt, int colorbtn, float cx,
                          float cy, float rectwidth, float rectheight,
                          Paint pnttxt, Paint  pntbtn, Canvas canvas){

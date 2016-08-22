@@ -24,7 +24,7 @@ public class MainThread extends Thread {
     private ContentView contentView;
 
 
-    private GravController gravController;
+
 
 
     public MainThread(SurfaceHolder surfaceHolder, ContentView contentView){
@@ -33,7 +33,7 @@ public class MainThread extends Thread {
         this.contentView = contentView;
     }
 
-    private boolean running;
+    public boolean running;
     public void setRunning(boolean running){
         this.running = running;
     }
@@ -42,9 +42,7 @@ public class MainThread extends Thread {
     public void run(){
         long tickCount = 0L;
         Log.d("TJG", "On Draw: ");
-          gravController = GravController.getInstance(this.surfaceHolder);
 
-            gravController.runballs(30);
 
         while(running){
         tickCount++;
@@ -56,7 +54,7 @@ public class MainThread extends Thread {
             int sleepTime;		// ms to sleep (<0 if we're behind)
             int framesSkipped;	// number of frames being skipped
 
-            sleepTime = 0;
+
 
             while (running) {
                 canvas = null;
@@ -66,13 +64,14 @@ public class MainThread extends Thread {
                     canvas = this.surfaceHolder.lockCanvas();
 
                     synchronized (surfaceHolder) {
+
                         beginTime = System.currentTimeMillis();
                         framesSkipped = 0;	// resetting the frames skipped
                         // update game state
-                        this.gravController.update();
+                        this.contentView.update();
                         // render state to the screen
                         // draws the canvas on the panel
-                        this.gravController.drawSpace(canvas);
+                        this.contentView.render(canvas);
                         // calculate how long did the cycle take
                         timeDiff = System.currentTimeMillis() - beginTime;
                         // calculate sleep time
@@ -90,7 +89,7 @@ public class MainThread extends Thread {
                         while (sleepTime < 0 && framesSkipped < MAX_FRAME_SKIPS) {
                             // we need to catch up
                             // update without rendering
-                            this.gravController.update();
+                            this.contentView.update();
                             // add frame period to check if in next frame
                             sleepTime += FRAME_PERIOD;
                             framesSkipped++;

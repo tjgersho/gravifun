@@ -18,14 +18,23 @@ public class Globals {
     private Globals(){
 
     }
-    private boolean iszeromass;
-    private boolean isdarkenergy;
-    private boolean issingularity;
+    public static Globals getInstance(){
+
+        if(instance==null){
+            instance = new Globals();
+        }
+        return instance;
+    }
+
+    private boolean iszeromass = true;
+    private boolean isdarkenergy = false;
+    private boolean issingularity = false;
 
     public boolean getIszeromass(){
         return this.iszeromass;
     }
-    public boolean getiddarkenergy(){
+
+    public boolean getIsdarkenergy(){
         return this.isdarkenergy;
     }
 
@@ -58,13 +67,6 @@ public class Globals {
         this.windowHeight = h;
     }
 
-    public static synchronized Globals getInstance(){
-
-        if(instance==null){
-            instance = new Globals();
-        }
-        return instance;
-    }
 
 
 
@@ -73,6 +75,7 @@ public class Globals {
     public void addMass(double x, double y){
         GravPoint mass = new GravPoint(x,y);
         addmassarray.add(mass);
+
     }
 
     public ArrayList<GravPoint> getMassestoadd(){
@@ -83,29 +86,20 @@ public class Globals {
         this.addmassarray.clear();
     }
 
-    private boolean shoudClear;
+    private boolean shoudClear = false;
 
     public void setShoudClear(boolean b){
         this.shoudClear = b;
     }
 
-    private double earthLocX;
-    private double earthLocY;
 
-    public double getEarthLocX(){return this.earthLocX;}
-    public double getEarthLocY(){return this.earthLocY;}
-
-    public void moveEarth(double x, double y){
-        this.earthLocX = x;
-        this.earthLocY = y;
-    }
 
 
     public boolean shouldclearMasses(){
             return this.shoudClear;
     }
 
-    private boolean shouldRunBalls;
+    private boolean shouldRunBalls = false;
 
     public void setShouldRunBalls(boolean b){
         this.shouldRunBalls = b;
@@ -127,5 +121,12 @@ public class Globals {
     }
     public Context getAppContext(){
         return this.context;
+    }
+
+    public synchronized void updateDone(){
+
+        this.clearAddmasses();
+        this.setShouldRunBalls(false);
+        this.setShoudClear(false);
     }
 }

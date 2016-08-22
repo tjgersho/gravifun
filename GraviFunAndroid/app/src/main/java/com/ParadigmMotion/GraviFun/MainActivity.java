@@ -13,8 +13,8 @@ import android.view.WindowManager;
 
 public class MainActivity extends Activity   {
     private static final String TAG = MainActivity.class.getSimpleName();
+     private ContentView contentView;
 
-   public MediaPlayer bgMusic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,18 +28,28 @@ public class MainActivity extends Activity   {
 
         Log.d(TAG, "View Added");
 
-       bgMusic = MediaPlayer.create(getApplicationContext(), R.raw.lightyears);
-       bgMusic.setLooping(true);bgMusic.start();
 
-        setContentView(new ContentView(this));
+        contentView = new ContentView(this);
+        setContentView(contentView);
     }
+
+    @Override
+    protected  void onStart()   {
+        super.onStart();
+
+        Log.d(TAG, "ONSTART");
+
+
+    }
+
+
     @Override
     protected  void onResume(){
         super.onResume();
-        bgMusic = MediaPlayer.create(getApplicationContext(), R.raw.lightyears);
-       bgMusic.setLooping(true);
-       bgMusic.start();
 
+        Log.d(TAG, "ON RESUME ");
+        setContentView(contentView);
+        contentView.thread.setRunning(true);
     }
 
     @Override
@@ -48,31 +58,27 @@ public class MainActivity extends Activity   {
         Log.d(TAG, "Destroying ...");
 
 
-        if(bgMusic != null) {
-           if(bgMusic.isPlaying()){
-                bgMusic.stop();
-           }
-           bgMusic.release();
-           bgMusic = null;
-        }
-
 
     }
 
     @Override
     protected void onStop(){
         super.onStop();
-        if(bgMusic != null) {
-          if(bgMusic.isPlaying()){
-             bgMusic.stop();
-          }
-            bgMusic.release();
-            bgMusic = null;
 
-        }
+
         Log.d(TAG, "Stopping ... ");
 
+
+
     }
+
+     @Override
+    protected  void onPause(){
+         super.onPause();
+
+         Log.d(TAG, "Pausing ... ");
+         contentView.thread.setRunning(false);
+     }
 
 
 
