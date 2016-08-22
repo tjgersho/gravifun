@@ -16,15 +16,15 @@ public class PointerGrav {
         return instance;
     }
 
-    public int x =-1000;
-    public int y = -1000;
+    public double x;
+    public double y;
     private int color;
     public Paint paint;
     private Globals g = Globals.getInstance();
 
 
 
-    protected  PointerGrav(int x, int y){
+    protected  PointerGrav(double x, double y){
         this.x = x;
         this.y = y;
 
@@ -45,23 +45,23 @@ public class PointerGrav {
 
 
         if(g.getIszeromass()) {
-            return 0;
+            return 0.0001;
         }
 
         if(g.getIssingularity()){
-            return 20000;
+            return 20000.0;
         }
 
         if(g.getiddarkenergy()){
-            return -20000;
+            return -20000.0;
         }else{
 
-            return 0;
+            return 0.0001;
         }
 
     }
 
-    public void updatePos(int x, int y){
+    public void updatePos(double x, double y){
         this.x = x;
         this.y = y;
 

@@ -44,6 +44,7 @@ public class MainActivity extends Activity   {
 
     @Override
     protected  void onDestroy(){
+        super.onDestroy();
         Log.d(TAG, "Destroying ...");
 
 
@@ -54,13 +55,13 @@ public class MainActivity extends Activity   {
            bgMusic.release();
            bgMusic = null;
         }
-        super.onDestroy();
+
 
     }
 
     @Override
     protected void onStop(){
-
+        super.onStop();
         if(bgMusic != null) {
           if(bgMusic.isPlaying()){
              bgMusic.stop();
@@ -70,7 +71,7 @@ public class MainActivity extends Activity   {
 
         }
         Log.d(TAG, "Stopping ... ");
-        super.onStop();
+
     }
 
 

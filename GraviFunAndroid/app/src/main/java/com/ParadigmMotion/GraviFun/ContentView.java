@@ -33,7 +33,7 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
         thread = new MainThread(getHolder(), this);
 
         setFocusable(true);
-        Log.d("TJG", "ContentView Constructor");
+
 
     }
     @Override
@@ -141,6 +141,7 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
             }else{
                 Log.d(TAG, "Coords: x=" + event.getX() + ",y= "+ event.getY());
                  g.addMass(event.getX(), event.getY());
+                g.moveEarth(event.getX(), event.getY());
             }
 
 

@@ -64,6 +64,7 @@ public class MainThread extends Thread {
                 // in the surface
                 try {
                     canvas = this.surfaceHolder.lockCanvas();
+
                     synchronized (surfaceHolder) {
                         beginTime = System.currentTimeMillis();
                         framesSkipped = 0;	// resetting the frames skipped

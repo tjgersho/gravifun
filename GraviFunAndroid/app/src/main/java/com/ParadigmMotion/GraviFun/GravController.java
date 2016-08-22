@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
 //import android.media.MediaPlayer;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -37,8 +38,8 @@ public class GravController  {
     }
 
     Globals g = Globals.getInstance();
-   // private MediaPlayer destroyPlayer = MediaPlayer.create(g.getAppContext(), R.raw.bottlepop);
-   // private MediaPlayer spawnPlayer = MediaPlayer.create(g.getAppContext(), R.raw.bottlepop);
+    private MediaPlayer destroyPlayer = MediaPlayer.create(g.getAppContext(), R.raw.explosion);
+    private MediaPlayer spawnPlayer = MediaPlayer.create(g.getAppContext(), R.raw.bottlepop);
 
     private int windowWidth = g.getWindowWidth();
     private int windowHeight = g.getWindowHeight();
@@ -48,8 +49,8 @@ public class GravController  {
     private double currentTime = System.currentTimeMillis();
 
     private double now;
-    private static PointerGrav pnter = new PointerGrav(0,0);
-    private volatile List<Mass> masses;
+    private static PointerGrav pnter = new PointerGrav(-1000,-1000);
+    private volatile ArrayList<Mass> masses;
 
 
     private Paint singularityBtnPaint = new Paint();
@@ -103,9 +104,9 @@ public class GravController  {
 
       }
 
-      List<Absorber> absorbList = new ArrayList<>();
+      ArrayList<Absorber> absorbList = new ArrayList<>();
 
-      List<Destroyer> destroyList = new ArrayList<>();
+      ArrayList<Destroyer> destroyList = new ArrayList<>();
 
       int me = 0;
 
@@ -157,11 +158,15 @@ public class GravController  {
             }
             them++;
         }
+
          double distXEarth = pnter.x - mass_me.posX;
          double distYEarth = pnter.y - mass_me.posY;
-         double distEarth = Math.sqrt(Math.pow(distXEarth,2) + Math.pow(distYEarth,2));
+
+
+         double distEarth = Math.sqrt(distXEarth * distXEarth + distYEarth*distYEarth);
 
          double forceEarth = GravC*mass_me.mass()*pnter.mass()/(distEarth*distEarth);
+
 
         mass_me.forceX = mass_me.forceX + forceEarth*(distXEarth/distEarth);
         mass_me.forceY = mass_me.forceY + forceEarth*(distYEarth/distEarth);
@@ -197,13 +202,14 @@ public class GravController  {
 
    }
 
-      for (Destroyer de : destroyList){
-         // Log.d("TJG", "Destry loop de "+ Integer.toString(de.who));
-          masses.remove(de.who);
-          ///destroyPlayer.start();
-      }
 
-    //Log.d("TJG", "Number of masses " + Integer.toString(masses.size()));
+
+     if(destroyList.size()>0){
+         destroyPlayer.start();
+         for (Destroyer de : destroyList){
+             masses.remove(de.who);
+         }
+     }
 
       destroyList.clear();
       absorbList.clear();
@@ -211,7 +217,6 @@ public class GravController  {
       g.setShouldRunBalls(false);
       g.setShoudClear(false);
 
-      Log.d("TJG", "Number of points "+ Integer.toString(masses.size()));
   }
 
   public void spawnMass(){
@@ -222,12 +227,12 @@ public class GravController  {
       masses.add(new Mass(x, y, windowWidth, windowHeight));
 
   }
-  public synchronized void   addMass(double x, double y){
+  public synchronized void  addMass(double x, double y){
 
 
               masses.add(new Mass(x, y, windowWidth, windowHeight));
-              //spawnPlayer.start();
-              pnter.updatePos((int) x,(int)y);
+              spawnPlayer.start();
+            //  pnter.updatePos( x, y);
 
 
   }
@@ -249,7 +254,7 @@ public class GravController  {
 
   public synchronized void drawSpace(Canvas canvas){
       if(canvas != null) {
-          canvas.drawColor(Color.argb(100, 0, 0, 0));
+          canvas.drawColor(Color.argb(255, 0, 0, 0));
 
 
           for (Mass mass : masses)
@@ -283,7 +288,7 @@ public class GravController  {
                   canvas.drawCircle((int) mass.posX, (int) mass.posY, (int) mass.diameter, mass.paint);
               }
           }
-          canvas.drawCircle(pnter.x, pnter.y, (int) pnter.diameter(), pnter.paint);
+          canvas.drawCircle((float)g.getEarthLocX(), (float)g.getEarthLocY(), (int) pnter.diameter(), pnter.paint);
           drawButtons(canvas);
 
    }

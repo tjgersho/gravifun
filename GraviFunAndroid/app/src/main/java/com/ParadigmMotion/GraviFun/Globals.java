@@ -89,6 +89,17 @@ public class Globals {
         this.shoudClear = b;
     }
 
+    private double earthLocX;
+    private double earthLocY;
+
+    public double getEarthLocX(){return this.earthLocX;}
+    public double getEarthLocY(){return this.earthLocY;}
+
+    public void moveEarth(double x, double y){
+        this.earthLocX = x;
+        this.earthLocY = y;
+    }
+
 
     public boolean shouldclearMasses(){
             return this.shoudClear;
