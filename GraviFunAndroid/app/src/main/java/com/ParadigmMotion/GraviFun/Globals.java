@@ -18,30 +18,7 @@ public class Globals {
     private Globals(){
 
     }
-    private boolean iszeromass;
-    private boolean isdarkenergy;
-    private boolean issingularity;
 
-    public boolean getIszeromass(){
-        return this.iszeromass;
-    }
-    public boolean getiddarkenergy(){
-        return this.isdarkenergy;
-    }
-
-    public boolean getIssingularity(){
-        return this.issingularity;
-    }
-
-    public void setIszeromass(boolean b){
-        this.iszeromass = b;
-    }
-    public void setIsdarkenergy(boolean b){
-        this.isdarkenergy = b;
-    }
-    public void setIssingularity(boolean b){
-        this.issingularity = b;
-    }
 
     public int getWindowWidth(){
         return this.windowWidth;

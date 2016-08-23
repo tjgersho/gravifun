@@ -42,25 +42,17 @@ public class MainActivity extends Activity   {
 
     }
 
+
     @Override
-    protected  void onDestroy(){
-        Log.d(TAG, "Destroying ...");
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "Pauseing ...");
 
-
-        if(bgMusic != null) {
-           if(bgMusic.isPlaying()){
-                bgMusic.stop();
-           }
-           bgMusic.release();
-           bgMusic = null;
-        }
-        super.onDestroy();
 
     }
-
     @Override
     protected void onStop(){
-
+        super.onStop();
         if(bgMusic != null) {
           if(bgMusic.isPlaying()){
              bgMusic.stop();
@@ -70,9 +62,25 @@ public class MainActivity extends Activity   {
 
         }
         Log.d(TAG, "Stopping ... ");
-        super.onStop();
+
     }
 
+    @Override
+    protected  void onDestroy(){
+        super.onDestroy();
+        Log.d(TAG, "Destroying ...");
+
+
+        if(bgMusic != null) {
+            if(bgMusic.isPlaying()){
+                bgMusic.stop();
+            }
+            bgMusic.release();
+            bgMusic = null;
+        }
+
+
+    }
 
 
 }

@@ -1,7 +1,10 @@
 package com.ParadigmMotion.GraviFun;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RadialGradient;
+import android.graphics.Shader;
 import android.util.Log;
 
 /**
@@ -27,11 +30,13 @@ public class Mass {
     public int color;
     public Paint paint;
 
+    private Globals g;
 
 
-   public Mass(double x, double y, int windowWidth, int windowHeight){
-     this.windowWidth = windowWidth;
-       this.windowHeight = windowHeight;
+   public Mass(double x, double y){
+       g = Globals.getInstance();
+       windowWidth = g.getWindowWidth();
+       windowHeight = g.getWindowHeight();
        posX = x;
        posY = y;
 
@@ -57,7 +62,39 @@ public class Mass {
 
     }
 
+public void drawSelf(Canvas canvas){
 
+    if (this.radius > 0.03 * windowWidth && this.radius <= 0.28 * windowWidth) {
+
+        float[] stopsGradient = new float[]{0, 0.5f, 1};
+        int[] colorsGradient = new int[]{Color.BLUE, Color.WHITE, this.color};
+        float xC = (float) this.posX;
+        float yC = (float) this.posY;
+        RadialGradient radialGradient = new RadialGradient(xC, yC, (float) ((float) this.radius * 0.7), colorsGradient, stopsGradient, Shader.TileMode.CLAMP);
+
+        this.paint.setDither(true);
+        this.paint.setAntiAlias(true);
+
+        this.paint.setShader(radialGradient);
+        canvas.drawCircle((float) this.posX, (float) this.posY, (float) this.radius, this.paint);
+
+    } else if (this.radius > 0.28 * windowWidth) {
+        float[] stopsGradient = new float[]{0, 0.5f, 1};
+        int[] colorsGradient = new int[]{Color.BLACK, Color.WHITE, this.color};
+        float xC = (float) this.posX;
+        float yC = (float) this.posY;
+        RadialGradient radialGradient = new RadialGradient(xC, yC, (float) ((float) this.radius * 0.8), colorsGradient, stopsGradient, Shader.TileMode.CLAMP);
+
+        this.paint.setDither(true);
+        this.paint.setAntiAlias(true);
+
+        this.paint.setShader(radialGradient);
+        canvas.drawCircle((float) this.posX, (float) this.posY, (float) this.radius, this.paint);
+    } else {
+        canvas.drawCircle((int) this.posX, (int) this.posY, (int) this.diameter, this.paint);
+    }
+
+}
 
     public void stayOnScreen(){
 

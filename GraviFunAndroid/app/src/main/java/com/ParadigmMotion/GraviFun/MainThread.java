@@ -22,7 +22,7 @@ public class MainThread extends Thread {
 
     private SurfaceHolder surfaceHolder;
     private ContentView contentView;
-
+    private Globals g;
 
     private GravController gravController;
 
@@ -31,6 +31,10 @@ public class MainThread extends Thread {
         super();
         this.surfaceHolder = surfaceHolder;
         this.contentView = contentView;
+        g = Globals.getInstance();
+
+        g.setWindowHeight( this.contentView.getHeight());
+        g.setWindowWidth(this.contentView.getWidth());
     }
 
     private boolean running;
@@ -47,7 +51,7 @@ public class MainThread extends Thread {
             gravController.runballs(30);
 
         while(running){
-        tickCount++;
+            tickCount++;
             Canvas canvas;
             Log.d(TAG, "Starting game loop");
 
@@ -62,16 +66,15 @@ public class MainThread extends Thread {
                 canvas = null;
                 // try locking the canvas for exclusive pixel editing
                 // in the surface
-                try {
-                    canvas = this.surfaceHolder.lockCanvas();
-                    synchronized (surfaceHolder) {
+
+
                         beginTime = System.currentTimeMillis();
                         framesSkipped = 0;	// resetting the frames skipped
                         // update game state
                         this.gravController.update();
                         // render state to the screen
                         // draws the canvas on the panel
-                        this.gravController.drawSpace(canvas);
+                        this.gravController.drawSpace();
                         // calculate how long did the cycle take
                         timeDiff = System.currentTimeMillis() - beginTime;
                         // calculate sleep time
@@ -94,15 +97,11 @@ public class MainThread extends Thread {
                             sleepTime += FRAME_PERIOD;
                             framesSkipped++;
                         }
-                    }
-                } finally {
-                    // in case of an exception the surface is not left in
-                    // an inconsistent state
-                    if (canvas != null) {
-                        surfaceHolder.unlockCanvasAndPost(canvas);
-                    }
-                }	// end finally
+
+
             }
         }
     }
+
+
 }

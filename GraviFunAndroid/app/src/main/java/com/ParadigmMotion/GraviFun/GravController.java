@@ -7,7 +7,9 @@ import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
 //import android.media.MediaPlayer;
+import android.media.MediaPlayer;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import java.util.ArrayList;
@@ -24,7 +26,8 @@ public class GravController  {
     protected GravController(SurfaceHolder surfaceHolder){
          this.surfaceHolder = surfaceHolder;
 
-        masses = new ArrayList<Mass>();
+        masses = new ArrayList<>();
+        gravityPhysics = new GravityPhysics();
     }
 
     private SurfaceHolder surfaceHolder;
@@ -37,19 +40,27 @@ public class GravController  {
     }
 
     Globals g = Globals.getInstance();
-   // private MediaPlayer destroyPlayer = MediaPlayer.create(g.getAppContext(), R.raw.bottlepop);
-   // private MediaPlayer spawnPlayer = MediaPlayer.create(g.getAppContext(), R.raw.bottlepop);
+
+
+    private MediaPlayer spawnPlayer = MediaPlayer.create(g.getAppContext(), R.raw.bottlepop);
 
     private int windowWidth = g.getWindowWidth();
     private int windowHeight = g.getWindowHeight();
 
-    private double GravC;
+    public enum GravState {
+        ISZERO, DARKENERGY, SINGULARITY
+    }
+
+    public GravState gravstate = GravState.ISZERO;
+
 
     private double currentTime = System.currentTimeMillis();
 
     private double now;
     private static PointerGrav pnter = new PointerGrav(0,0);
-    private volatile List<Mass> masses;
+    private  ArrayList<Mass> masses;
+
+    private GravityPhysics gravityPhysics;
 
 
     private Paint singularityBtnPaint = new Paint();
@@ -61,8 +72,10 @@ public class GravController  {
     private Paint grav100BtnPaint = new Paint();
     private Paint txtPaint = new Paint();
 
+    private double earthX;
+    private double earthY;
 
-  public synchronized void update(){
+  public  void update(){
       windowWidth = g.getWindowWidth();
       windowHeight= g.getWindowHeight();
 
@@ -79,158 +92,30 @@ public class GravController  {
       if(g.getShouldRunBalls()){
           this.runballs(g.getBallstorun());
       }
-
-      GravC = 500*((double)windowWidth/1920);
-
+      pnter.updatePos(earthX, earthY);
       now = System.currentTimeMillis();
 
       double delta_t = (now - currentTime) / 1000;
 
       currentTime = now;
+      masses = gravityPhysics.update(masses, pnter, delta_t, windowWidth, windowHeight, gravstate);
 
-      for(Mass mass : masses) {
-
-           mass.posX = mass.posX + delta_t*mass.velX;
-           mass.posY = mass.posY + delta_t*mass.velY;
-
-          double relaxation = 1.0;
-          if(Math.sqrt(Math.pow(mass.velX,2)+Math.pow(mass.velX,2))*mass.mass() > 30){
-              relaxation  = 0.98;
-          }
-
-          mass.velX = relaxation* mass.velX + mass.forceX/mass.mass() * delta_t;
-          mass.velY = relaxation* mass.velY + mass.forceY/mass.mass() * delta_t;
-
-      }
-
-      List<Absorber> absorbList = new ArrayList<>();
-
-      List<Destroyer> destroyList = new ArrayList<>();
-
-      int me = 0;
-
-
-
-    for (Mass mass_me : masses) {
-
-        mass_me.forceX = 0;
-        mass_me.forceY = 0;
-        int them = 0;
-        for (Mass mass_them : masses) {
-
-
-            if (mass_me != mass_them) {
-
-                double distX = mass_them.posX - mass_me.posX;
-                double distY = mass_them.posY - mass_me.posY;
-
-                double dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
-
-                if (dist < (mass_them.radius + mass_me.radius)) {
-                    dist = mass_them.radius + mass_me.radius;
-                    if (mass_them.radius < mass_me.radius) {
-                        Boolean isInabsorblist = false;
-                        for (Absorber abs : absorbList) {
-
-                            if (abs.absorbs == me && abs.absorbs == them) {
-                                isInabsorblist = true;
-                                break;
-                            }
-
-                        }
-
-                        if (!isInabsorblist) {
-                            absorbList.add(new Absorber(me, them));
-
-                        }
-
-                    }
-
-                }
-
-                double force = GravC * mass_me.mass() * mass_them.mass() / (dist * dist);
-
-
-                mass_me.forceX = mass_me.forceX + force * (distX / dist);
-                mass_me.forceY = mass_me.forceY + force * (distY / dist);
-
-            }
-            them++;
-        }
-         double distXEarth = pnter.x - mass_me.posX;
-         double distYEarth = pnter.y - mass_me.posY;
-         double distEarth = Math.sqrt(Math.pow(distXEarth,2) + Math.pow(distYEarth,2));
-
-         double forceEarth = GravC*mass_me.mass()*pnter.mass()/(distEarth*distEarth);
-
-        mass_me.forceX = mass_me.forceX + forceEarth*(distXEarth/distEarth);
-        mass_me.forceY = mass_me.forceY + forceEarth*(distYEarth/distEarth);
-        mass_me.stayOnScreen();
-
-        if(mass_me.radius > windowWidth*0.3){
-            destroyList.add(new Destroyer(me));
-        }
-
-        me++;
-    }
-
-     // Log.d("TJG", "Mass Data " + Double.toString(masses.get(1).forceX));
-
-    //  Log.d("TJG", "PosX " + Double.toString(masses.get(1).posX));
-    //  Log.d("TJG", "VelX " + Double.toString(masses.get(1).velX));
-
-   for (Absorber abs : absorbList){
-       double prevMass = masses.get(abs.who).mass();
-       double velInitialX = masses.get(abs.who).velX;
-       double velInitialY = masses.get(abs.who).velY;
-
-       masses.get(abs.who).radius = Math.sqrt(Math.pow(masses.get(abs.who).radius,2) + Math.pow(masses.get(abs.absorbs).radius,2));
-
-       masses.get(abs.who).velX = (masses.get(abs.who).velX*prevMass + masses.get(abs.absorbs).velX*masses.get(abs.absorbs).mass())/(prevMass + masses.get(abs.absorbs).mass());
-       masses.get(abs.who).velY = (masses.get(abs.who).velY*prevMass + masses.get(abs.absorbs).velY*masses.get(abs.absorbs).mass())/(prevMass + masses.get(abs.absorbs).mass());
-
-       masses.get(abs.who).forceX = masses.get(abs.who).forceX + 0.1*(masses.get(abs.who).mass()*(masses.get(abs.absorbs).velX-velInitialX))/delta_t;
-       masses.get(abs.who).forceY = masses.get(abs.who).forceY + 0.1*(masses.get(abs.who).mass()*(masses.get(abs.absorbs).velY-velInitialY))/delta_t;
-
-       masses.remove(abs.absorbs);
-       spawnMass();
-
-   }
-
-      for (Destroyer de : destroyList){
-         // Log.d("TJG", "Destry loop de "+ Integer.toString(de.who));
-          masses.remove(de.who);
-          ///destroyPlayer.start();
-      }
 
     //Log.d("TJG", "Number of masses " + Integer.toString(masses.size()));
 
-      destroyList.clear();
-      absorbList.clear();
+
       g.clearAddmasses();
       g.setShouldRunBalls(false);
       g.setShoudClear(false);
 
-      Log.d("TJG", "Number of points "+ Integer.toString(masses.size()));
-  }
-
-  public void spawnMass(){
-
-      double x = Math.random()*windowWidth;
-      double y = Math.random()*windowHeight;
-      //Log.d("TJG", "SPAWN MASS X: " + Double.toString(x) + "  Width " + Integer.toString(windowWidth));
-      masses.add(new Mass(x, y, windowWidth, windowHeight));
 
   }
-  public synchronized void   addMass(double x, double y){
 
 
-              masses.add(new Mass(x, y, windowWidth, windowHeight));
-              //spawnPlayer.start();
-              pnter.updatePos((int) x,(int)y);
-
-
-  }
+    public  void  addMass(double x, double y){
+              masses.add(new Mass(x, y));
+             spawnPlayer.start();
+     }
     public void clearMasses(){
         masses.clear();
     }
@@ -238,7 +123,7 @@ public class GravController  {
     public int runballs(int qty){
       //  Log.d("TJG", "Run Balls qty: " + Integer.toString(qty) );
         if(masses.size()<qty){
-            spawnMass();
+            gravityPhysics.spawnMass(masses, windowWidth, windowHeight);
             return runballs(qty);
         }else{
 
@@ -247,46 +132,27 @@ public class GravController  {
 
     }
 
-  public synchronized void drawSpace(Canvas canvas){
+  public void drawSpace(){
+
+      Canvas canvas = this.surfaceHolder.lockCanvas();
+
       if(canvas != null) {
           canvas.drawColor(Color.argb(100, 0, 0, 0));
 
 
-          for (Mass mass : masses)
-              if (mass.radius > 0.03 * windowWidth && mass.radius <= 0.28 * windowWidth) {
-
-                  float[] stopsGradient = new float[]{0, 0.5f, 1};
-                  int[] colorsGradient = new int[]{Color.BLUE, Color.WHITE, mass.color};
-                  float xC = (float) mass.posX;
-                  float yC = (float) mass.posY;
-                  RadialGradient radialGradient = new RadialGradient(xC, yC, (float) ((float) mass.radius * 0.7), colorsGradient, stopsGradient, Shader.TileMode.CLAMP);
-
-                  mass.paint.setDither(true);
-                  mass.paint.setAntiAlias(true);
-
-                  mass.paint.setShader(radialGradient);
-                  canvas.drawCircle((float) mass.posX, (float) mass.posY, (float) mass.radius, mass.paint);
-
-              } else if (mass.radius > 0.28 * windowWidth) {
-                  float[] stopsGradient = new float[]{0, 0.5f, 1};
-                  int[] colorsGradient = new int[]{Color.BLACK, Color.WHITE, mass.color};
-                  float xC = (float) mass.posX;
-                  float yC = (float) mass.posY;
-                  RadialGradient radialGradient = new RadialGradient(xC, yC, (float) ((float) mass.radius * 0.8), colorsGradient, stopsGradient, Shader.TileMode.CLAMP);
-
-                  mass.paint.setDither(true);
-                  mass.paint.setAntiAlias(true);
-
-                  mass.paint.setShader(radialGradient);
-                  canvas.drawCircle((float) mass.posX, (float) mass.posY, (float) mass.radius, mass.paint);
-              } else {
-                  canvas.drawCircle((int) mass.posX, (int) mass.posY, (int) mass.diameter, mass.paint);
-              }
+          for (Mass mass : masses) {
+              mass.drawSelf(canvas);
           }
-          canvas.drawCircle(pnter.x, pnter.y, (int) pnter.diameter(), pnter.paint);
+
+          pnter.drawSelf(canvas);
+
           drawButtons(canvas);
 
+              surfaceHolder.unlockCanvasAndPost(canvas);
+
+         }
    }
+
     private void drawBtn(String txt, int txtSize, int colortxt, int colorbtn, float cx,
                          float cy, float rectwidth, float rectheight,
                          Paint pnttxt, Paint  pntbtn, Canvas canvas){
@@ -338,6 +204,110 @@ public class GravController  {
 
     }
 
+
+
+    public void onTouchEvent(MotionEvent event) {
+
+        Log.d("TJG", "MOtion Event"+ Integer.toString(event.getAction()));
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            int btn;
+            if((btn = whichButton(event.getX(), event.getY())) != 0){
+                Log.d("TJG", "Event Case: "+ Integer.toString(btn));
+                switch (btn){
+                    case 1:
+                        g.setShoudClear(true);
+                        g.setShouldRunBalls(false);
+                        g.runballs(0);
+
+                        break;
+                    case 2:
+                        g.setShoudClear(true);
+                        g.setShouldRunBalls(true);
+                        g.runballs(10);
+                       gravstate = GravController.GravState.ISZERO;
+
+
+
+                        break;
+                    case 3:
+                        g.setShoudClear(true);
+                        g.setShouldRunBalls(true);
+                        g.runballs(50);
+                        gravstate = GravController.GravState.ISZERO;
+
+                        break;
+                    case 4:
+                        g.setShoudClear(true);
+                        g.setShouldRunBalls(true);
+                        g.runballs(100);
+                        gravstate = GravController.GravState.ISZERO;
+
+                        break;
+                    case 5:
+                        gravstate = GravController.GravState.DARKENERGY;
+                        break;
+                    case 6:
+                        gravstate = GravController.GravState.ISZERO;
+                        break;
+                    case 7:
+                        gravstate = GravController.GravState.SINGULARITY;
+                        break;
+                }
+
+
+            }else{
+                Log.d("TJG", "Coords: x=" + event.getX() + ",y= "+ event.getY());
+                g.addMass(event.getX(), event.getY());
+
+                earthX = event.getX();
+                earthY = event.getY();
+
+
+            }
+
+
+        }
+
+
+
+    }
+
+    private int whichButton(float clickX, float clickY){
+
+
+        if(clickY>(float)0.05*windowHeight && clickY < (float)(windowHeight-0.05*windowHeight)){
+            return 0;
+        }else{
+
+            if(clickY < (float)0.05*windowHeight){  /// Is Grav-#
+
+                if(clickX < windowWidth/4){
+                    return 1;
+                }else if(clickX > windowWidth/4 && clickX < windowWidth/2){
+                    return 2;
+                }else if(clickX > windowWidth/2 && clickX < (float)3/4*windowWidth){
+                    return 3;
+                }else{
+                    return 4;
+                }
+
+
+            }else{  // is Pointer Mass Setting
+
+                if(clickX < windowWidth/3) {
+                    return 5;
+                }else if(clickX > windowWidth/3 && clickX < (float) 2/3*windowWidth) {
+                    return 6;
+                }else{
+                    return 7;
+                }
+
+            }
+
+        }
+
+
+    }
 
 
 }

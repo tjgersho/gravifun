@@ -30,7 +30,7 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
 
         getHolder().addCallback(this);
 
-        thread = new MainThread(getHolder(), this);
+
 
         setFocusable(true);
         Log.d("TJG", "ContentView Constructor");
@@ -52,142 +52,37 @@ public class ContentView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder){
 
 
-        g.setWindowHeight(getHeight());
-        g.setWindowWidth(getWidth());
-        g.setIszeromass(true);
-
      //   Log.d("TJG", "Global Get Width Content View Surface Created" + Integer.toString(g.getWindowWidth()));
      //   Log.d("TJG", "Global Get Height Content View Surface Created" + Integer.toString(g.getWindowHeight()));
         gravController = GravController.getInstance(getHolder());
 
+        thread = new MainThread(getHolder(), this);
         thread.setRunning(true);
         thread.start();
 
     }
     @Override
     public void surfaceDestroyed(SurfaceHolder holder){
-        boolean retry = true;
-        while(retry){
-            try{
-                thread.join();
-                retry = false;
 
-            }catch (InterruptedException e){
-                //try again shutting down the thread
+        if(thread != null) {
+            thread.setRunning(false);
+
+            while(thread != null) {
+                try {
+                    thread.join();
+                    thread = null;
+                } catch (InterruptedException e) {
+                }
             }
         }
     }
     @Override
     public boolean onTouchEvent(MotionEvent event){
-        Log.d("TJG", "MOtion Event"+ Integer.toString(event.getAction()));
-        if(event.getAction() == MotionEvent.ACTION_DOWN){
-             int btn;
-            if((btn = whichButton(event)) != 0){
-               Log.d("TJG", "Event Case: "+ Integer.toString(btn));
-                switch (btn){
-                    case 1:
-                        g.setShoudClear(true);
-                        g.setShouldRunBalls(false);
-                        g.runballs(0);
-                        g.setIssingularity(false);
-                        g.setIszeromass(true);
-                        g.setIsdarkenergy(false);
-                        break;
-                    case 2:
-                        g.setShoudClear(true);
-                        g.setShouldRunBalls(true);
-                        g.runballs(10);
-                        g.setIssingularity(false);
-                        g.setIszeromass(true);
-                        g.setIsdarkenergy(false);
-
-                        break;
-                    case 3:
-                        g.setShoudClear(true);
-                        g.setShouldRunBalls(true);
-                        g.runballs(50);
-                        g.setIssingularity(false);
-                        g.setIszeromass(true);
-                        g.setIsdarkenergy(false);
-
-                        break;
-                    case 4:
-                        g.setShoudClear(true);
-                        g.setShouldRunBalls(true);
-                        g.runballs(100);
-                        g.setIssingularity(false);
-                        g.setIszeromass(true);
-                        g.setIsdarkenergy(false);
-
-                        break;
-                    case 5:
-                        g.setIssingularity(false);
-                        g.setIszeromass(false);
-                        g.setIsdarkenergy(true);
-                        break;
-                    case 6:
-                        g.setIssingularity(false);
-                        g.setIszeromass(true);
-                        g.setIsdarkenergy(false);
-                        break;
-                    case 7:
-                        g.setIssingularity(true);
-                        g.setIszeromass(false);
-                        g.setIsdarkenergy(false);
-                        break;
-                }
-
-
-            }else{
-                Log.d(TAG, "Coords: x=" + event.getX() + ",y= "+ event.getY());
-                 g.addMass(event.getX(), event.getY());
-            }
-
-
-        }
-
-
-        return super.onTouchEvent(event);
+      gravController.onTouchEvent(event);
+        return true;
     }
 
-    private int whichButton(MotionEvent event){
 
-        float clickY = event.getY();
-        float clickX = event.getX();
-
-        if(clickY>(float)0.05*getHeight() && clickY < (float)(getHeight()-0.05*getHeight())){
-            return 0;
-        }else{
-
-            if(clickY < (float)0.05*getHeight()){  /// Is Grav-#
-
-                if(clickX < getWidth()/4){
-                    return 1;
-                }else if(clickX > getWidth()/4 && clickX < getWidth()/2){
-                    return 2;
-                }else if(clickX > getWidth()/2 && clickX < (float)3/4*getWidth()){
-                    return 3;
-                }else{
-                    return 4;
-                }
-
-
-            }else{  // is Pointer Mass Setting
-
-                if(clickX < getWidth()/3) {
-                    return 5;
-                }else if(clickX > getWidth()/3 && clickX < (float) 2/3*getWidth()) {
-                    return 6;
-                }else{
-                    return 7;
-                }
-
-            }
-
-        }
-
-
-    }
 
     @Override
     protected void onDraw(Canvas canvas){

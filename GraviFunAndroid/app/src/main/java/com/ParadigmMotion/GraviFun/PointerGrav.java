@@ -1,6 +1,7 @@
 package com.ParadigmMotion.GraviFun;
 
 
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
@@ -16,8 +17,8 @@ public class PointerGrav {
         return instance;
     }
 
-    public int x =-1000;
-    public int y = -1000;
+    public double x =-1000;
+    public double y = -1000;
     private int color;
     public Paint paint;
     private Globals g = Globals.getInstance();
@@ -40,31 +41,32 @@ public class PointerGrav {
 
        return  20;
     }
+    public void drawSelf(Canvas canvas){
+        canvas.drawCircle((float)this.x, (float)this.y, (int) this.diameter(), this.paint);
+    }
+    public double mass(GravController.GravState state){
 
-    public double mass(){
 
-
-        if(g.getIszeromass()) {
-            return 0;
+        if(state == GravController.GravState.ISZERO) {
+            return 0.0001;
         }
 
-        if(g.getIssingularity()){
+        if(state == GravController.GravState.SINGULARITY){
             return 20000;
         }
 
-        if(g.getiddarkenergy()){
+        if(state == GravController.GravState.DARKENERGY){
             return -20000;
         }else{
 
-            return 0;
+            return 0.0001;
         }
 
     }
 
-    public void updatePos(int x, int y){
+    public void updatePos(double x, double y){
         this.x = x;
         this.y = y;
-
 
     }
 
