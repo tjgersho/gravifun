@@ -11,19 +11,24 @@ import Foundation
 
 class GravPhysics {
    
-    var instance = GravPhysics()
-    var g = Game.instance
-    
+    static let instance = GravPhysics()
+    private init(){print("Physics INIT")}
+  //
     
     
     public func run (delta_t: Double){
    
-    
-        let GravC: Double = 500*(Double(g.windowWidth/1920))
+        var masses = Game.instance.masses
+        let windowWidth = Game.instance.windowWidth
+        let windowHeight = Game.instance.windowHeight
+        //let pnter = Game.instance.pnter
+        
+        
+        let GravC: Double = 500*(Double(windowWidth)/1920.0)
         
         
         
-        for mass in g.masses {
+        for mass in masses {
             
             mass.posX = mass.posX + delta_t*mass.velX;
             mass.posY = mass.posY + delta_t*mass.velY;
@@ -38,22 +43,22 @@ class GravPhysics {
             
         }
         
-        var absorbList:  [Absorber] = [];
+        var absorbList:  [Absorber] = []
         
-        var destroyList: [Destroyer] = [];
+        var destroyList: [Destroyer] = []
         
-        var me: Int  = 0;
+        var me: Int  = 0
     
      
-        for mass_me in g.masses {
+        for mass_me in masses {
             
-            mass_me.forceX = 0;
-            mass_me.forceY = 0;
-            var them: Int = 0;
-            for mass_them in g.masses {
+            mass_me.forceX = 0
+            mass_me.forceY = 0
+            var them: Int = 0
+            for mass_them in masses {
                 
                 
-                if (mass_me != mass_them) {
+                if (me != them) {
                     
                     let distX = mass_them.posX - mass_me.posX;
                     let distY = mass_them.posY - mass_me.posY;
@@ -61,14 +66,15 @@ class GravPhysics {
                     var dist = sqrt(pow(distX, 2) + pow(distY, 2));
                     
                     if (dist < (mass_them.radius + mass_me.radius)) {
-                        dist = mass_them.radius + mass_me.radius;
+                        dist = mass_them.radius + mass_me.radius
                         if (mass_them.radius < mass_me.radius) {
                             var isInabsorblist: Bool = false;
                             for  abs in absorbList {
                                 
-                                if (abs.absorbs == me && abs.absorbs == them) {
-                                    isInabsorblist = true;
-                                    break;
+                                if (abs.absorbs == me || abs.absorbs == them) {
+                                    isInabsorblist = true
+                                    break
+                                
                                 }
                                 
                             }
@@ -81,62 +87,77 @@ class GravPhysics {
                         }
                         
                     }
-                    
+                  
                   let force = GravC * mass_me.mass() * mass_them.mass() / (dist * dist);
-                    
-                    
+                                       
                     mass_me.forceX = mass_me.forceX + force * (distX / dist);
                     mass_me.forceY = mass_me.forceY + force * (distY / dist);
                     
                 }
-                them += 1;
+                them += 1
             }
-            let distXEarth: Double = g.pnter.x - mass_me.posX;
-            let distYEarth: Double = g.pnter.y - mass_me.posY;
-           var distEarth = sqrt(pow(distXEarth,2) + pow(distYEarth,2));
+            
+            
+           let distXEarth:  Double = Game.instance.pnter.x - mass_me.posX;
+            let distYEarth: Double = Game.instance.pnter.y - mass_me.posY;
+            var distEarth: Double  =  sqrt(pow(distXEarth,2) + pow(distYEarth,2));
             var forceEarth: Double
             if(distEarth>1) {
-                forceEarth = GravC * mass_me.mass() * g.pnter.mass() / (distEarth * distEarth);
+                forceEarth = GravC * mass_me.mass() * Game.instance.pnter.mass(gravstate: Game.instance.gravState) / (distEarth * distEarth);
             }else{
                 distEarth = 1;
-                forceEarth = GravC * mass_me.mass() * g.pnter.mass() / (distEarth * distEarth);
+                forceEarth =  GravC * mass_me.mass() * Game.instance.pnter.mass(gravstate: Game.instance.gravState) / (distEarth * distEarth);
             }
             mass_me.forceX = mass_me.forceX + forceEarth*(distXEarth/distEarth);
             mass_me.forceY = mass_me.forceY + forceEarth*(distYEarth/distEarth);
-            mass_me.stayOnScreen();
+            mass_me.stayOnScreen(winWidth: Double(windowWidth), winHeight: Double(windowHeight));
             
-            if(mass_me.radius > Double(g.windowWidth) * 0.3){
+            if(mass_me.radius > Double(windowWidth) * 0.3){
                 destroyList.append(Destroyer(who: me))
             }
             
-            me += 1;
+            me += 1
         }
     
-    
-    
-    
-    
+
+       
+       
+      absorbList.sort(by: {$0.absorbs >  $1.absorbs})
     for abs in absorbList {
-    let prevMass = g.masses[abs.who].mass();
-    let velInitialX = g.masses[abs.who].velX;
-    let velInitialY = g.masses[abs.who].velY;
+    let prevMass = masses[abs.who].mass();
+    let velInitialX = masses[abs.who].velX;
+    let velInitialY = masses[abs.who].velY;
+   print("mass Pre \(masses[abs.who].radius)")
+        
+    masses[abs.who].radius = sqrt(pow(masses[abs.who].radius,2) + pow(masses[abs.absorbs].radius,2));
+     print("mass Post \(masses[abs.who].radius)")
+    masses[abs.who].velX = (masses[abs.who].velX*prevMass + masses[abs.absorbs].velX*masses[abs.absorbs].mass())/(prevMass + masses[abs.absorbs].mass());
+    masses[abs.who].velY = (masses[abs.who].velY*prevMass + masses[abs.absorbs].velY*masses[abs.absorbs].mass())/(prevMass + masses[abs.absorbs].mass());
     
-    g.masses[abs.who].radius = sqrt(pow(g.masses[abs.who].radius,2) + pow(g.masses[abs.absorbs].radius,2));
-    
-    g.masses[abs.who].velX = (g.masses[abs.who].velX*prevMass + g.masses[abs.absorbs].velX*g.masses[abs.absorbs].mass())/(prevMass + g.masses[abs.absorbs].mass());
-    g.masses[abs.who].velY = (g.masses[abs.who].velY*prevMass + g.masses[abs.absorbs].velY*g.masses[abs.absorbs].mass())/(prevMass + g.masses[abs.absorbs].mass());
-    
-    g.masses[abs.who].forceX = g.masses[abs.who].forceX + 0.1*(g.masses[abs.who].mass()*(g.masses[abs.absorbs].velX-velInitialX))/delta_t;
-    g.masses[abs.who].forceY = g.masses[abs.who].forceY + 0.1*(g.masses[abs.who].mass()*(g.masses[abs.absorbs].velY-velInitialY))/delta_t;
-    
-    g.masses.remove(at: abs.absorbs);
-    g.spawnMass();
-    
+    masses[abs.who].forceX = masses[abs.who].forceX + 0.1*(masses[abs.who].mass()*(masses[abs.absorbs].velX-velInitialX))/delta_t;
+    masses[abs.who].forceY = masses[abs.who].forceY + 0.1*(masses[abs.who].mass()*(masses[abs.absorbs].velY-velInitialY))/delta_t;
+        masses.remove(at: abs.absorbs);
+        
+        let x: Double = Double(arc4random_uniform(100))/100.0 * Double(windowWidth)
+        let y: Double = Double(arc4random_uniform(100))/100.0 * Double(windowHeight)
+        
+        masses.append(Mass(x: x, y: y, winWidth: windowWidth, winHeight: windowHeight));
+       
     }
-    
+       
+        
+        //for abs in  absorbList{
+             //       }
+        //if absorbList.count > 1 {
+       // for _ in 1..<absorbList.count {
+            
+            
+        //}
+        //}
+        
     for de in  destroyList {
     // Log.d("TJG", "Destry loop de "+ Integer.toString(de.who));
-    g.masses.remove(at: de.who);
+    masses.remove(at: de.who);
     ///destroyPlayer.start();
     //g.destroyPlayer.start();
     }
@@ -144,9 +165,10 @@ class GravPhysics {
     
     destroyList.removeAll()
     absorbList.removeAll()
-
     
-
+    
+       Game.instance.masses = []
+        Game.instance.masses = masses
         
         
     }

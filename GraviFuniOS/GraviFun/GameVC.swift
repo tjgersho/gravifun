@@ -10,21 +10,23 @@
 import UIKit
 
 class GameVC: UIViewController {
-    let g = Game.instance
     
+       
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        g.updateScreenSize(winWidth: Int(self.view.frame.size.width), winHeight: Int(self.view.frame.size.height))
+       Game.instance.updateScreenSize(winWidth: Int(self.view.frame.size.width), winHeight: Int(self.view.frame.size.height))
         
-        let gl = GameLoop(frameInterval: 10, runFunc: runGame)
+        let gl = GameLoop(frameInterval: 40, runFunc: runGame)
         gl.start()
         
         print("GAMEVC LOADED")
+        
+         Game.instance.runballs(qty: 30);
     }
     
     func runGame(){
-        print("LOOP")
+       // print("LOOP")
         
         self.view.setNeedsDisplay()
         
@@ -39,17 +41,20 @@ class GameVC: UIViewController {
         let touch = touches.first?.location(in: self.view)
         
         
-        print("\(touch?.x)")
+        //print("\(touch?.x)")
         
-        print("\(touch?.y)")
+      //  print("\(touch?.y)")
         
-        g.pnter.x = Double((touch?.x)!)
-        g.pnter.y = Double((touch?.y)!)
+        let touchX: Double = Double((touch?.x)!)
+        let touchY: Double = Double((touch?.y)!)
         
+        Game.instance.pnter.x = touchX
+         Game.instance.pnter.y = touchY
         
-        print("\(g.pnter.x)")
+        Game.instance.addMass(x: touchX, y: touchY)
+      // print("\(g.pnter.x)")
         
-        print("\(g.pnter.y)")
+      //  print("\(g.pnter.y)")
     }
 }
 

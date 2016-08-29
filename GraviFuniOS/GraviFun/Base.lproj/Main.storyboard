@@ -19,15 +19,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splashbg.png" translatesAutoresizingMaskIntoConstraints="NO" id="G6Z-YL-BQm"/>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="pmlogo.png" translatesAutoresizingMaskIntoConstraints="NO" id="MzX-89-eK2">
-                                <frame key="frameInset" minX="65" minY="162" width="244" height="179"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pmlogo.png" translatesAutoresizingMaskIntoConstraints="NO" id="MzX-89-eK2">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="250" id="Y3P-jT-AkI"/>
                                     <constraint firstAttribute="width" constant="250" id="hHs-9G-iDe"/>
                                 </constraints>
                             </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" text="ParadigmMotion.com   OutoftheBoxWorx.com" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="brp-jX-NMA">
-                                <frame key="frameInset" minX="67" minY="596" width="240" height="51"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="ParadigmMotion.com   OutoftheBoxWorx.com" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="brp-jX-NMA">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="BUd-6L-YrF"/>

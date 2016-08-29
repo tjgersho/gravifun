@@ -10,7 +10,7 @@ import UIKit
 
 class GameView: UIView {
     
-    let g = Game.instance
+ 
     
     var lastTime = CACurrentMediaTime();
     var delta_t: Double = 0.0
@@ -30,9 +30,10 @@ class GameView: UIView {
         let now = CACurrentMediaTime();
         let delta_t = now - lastTime
         //drawLine(delta_t: delta_t)
-        
-        g.update(dt: delta_t)
-        g.render()
+      //  print("Delta T \(delta_t)")
+     
+         Game.instance.update(dt: delta_t)
+        Game.instance.render()
         
         lastTime = now
     }

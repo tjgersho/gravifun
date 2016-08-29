@@ -11,8 +11,9 @@ import UIKit
 class PointerGrav: NSObject {
     
     static let instance  = PointerGrav()
+    private override init(){}
     
-    let g = Game.instance
+
 
     
     var x:Double = 0
@@ -20,24 +21,47 @@ class PointerGrav: NSObject {
     
     
     
-    func mass() -> Double{
+    func mass(gravstate: Int) -> Double{
     
     
-        if(g.gravState == GravState.ISZERO) {
+        if(gravstate == 0) {
             return 0.0001;
         }
         
-        if(g.gravState == GravState.SINGULARITY){
+        if(gravstate == 1){
             return 20000;
         }
         
-        if(g.gravState == GravState.DARKENERGY){
+        if(gravstate == 2){
             return -20000;
         }else{
             
             return 0.0001;
         }
     
+    }
+    
+    func draw(){
+        
+        if  let context = UIGraphicsGetCurrentContext() {
+            
+           // print("DRAW Pointer")
+            
+            context.setLineWidth(3.0)
+            context.setStrokeColor(UIColor(red: CGFloat(1), green: CGFloat(1), blue: CGFloat(1), alpha: 1).cgColor)
+            
+            
+            // context.setFillColor(color)
+            let sq = CGRect(x: CGFloat(self.x-6), y: CGFloat(self.y-6), width: CGFloat(12), height: CGFloat(12))
+            
+            context.addEllipse(inRect: sq)
+            
+            context.strokePath()
+            //context.fillEllipse(in: sq)
+            // context.fillPath()
+            
+            
+        }
     }
     
 }

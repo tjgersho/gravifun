@@ -14,7 +14,7 @@ class SplashController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-      Timer.scheduledTimer(withTimeInterval: 2, repeats: false, block: { _ in self.startGame() })
+      Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { _ in self.startGame() })
     }
     
     func startGame(){
