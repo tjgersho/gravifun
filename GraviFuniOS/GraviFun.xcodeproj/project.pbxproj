@@ -1,0 +1,359 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		ACF2B33A1D74846100DBD56A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B3391D74846100DBD56A /* AppDelegate.swift */; };
+		ACF2B33C1D74846100DBD56A /* SplashController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B33B1D74846100DBD56A /* SplashController.swift */; };
+		ACF2B33F1D74846100DBD56A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACF2B33D1D74846100DBD56A /* Main.storyboard */; };
+		ACF2B3411D74846100DBD56A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF2B3401D74846100DBD56A /* Assets.xcassets */; };
+		ACF2B3441D74846100DBD56A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACF2B3421D74846100DBD56A /* LaunchScreen.storyboard */; };
+		ACF2B3511D7488BF00DBD56A /* pmlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = ACF2B34F1D7488BF00DBD56A /* pmlogo.png */; };
+		ACF2B3521D7488BF00DBD56A /* splashbg.png in Resources */ = {isa = PBXBuildFile; fileRef = ACF2B3501D7488BF00DBD56A /* splashbg.png */; };
+		ACF2B3551D748A0100DBD56A /* GameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B3541D748A0100DBD56A /* GameVC.swift */; };
+		ACF2B3571D7498C700DBD56A /* GameLoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B3561D7498C700DBD56A /* GameLoop.swift */; };
+		ACF2B3591D74990200DBD56A /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B3581D74990200DBD56A /* GameView.swift */; };
+		ACF2B35B1D74992300DBD56A /* Mass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B35A1D74992300DBD56A /* Mass.swift */; };
+		ACF2B35D1D74995800DBD56A /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B35C1D74995800DBD56A /* Game.swift */; };
+		ACF2B35F1D74998500DBD56A /* PointerGrav.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B35E1D74998500DBD56A /* PointerGrav.swift */; };
+		ACF2B3611D74A42F00DBD56A /* GravPhysics.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B3601D74A42F00DBD56A /* GravPhysics.swift */; };
+		ACF2B3631D74B83D00DBD56A /* Absorber.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B3621D74B83D00DBD56A /* Absorber.swift */; };
+		ACF2B3651D74B8BD00DBD56A /* Destroyer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B3641D74B8BD00DBD56A /* Destroyer.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		ACF2B3361D74846100DBD56A /* GraviFun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GraviFun.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACF2B3391D74846100DBD56A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		ACF2B33B1D74846100DBD56A /* SplashController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashController.swift; sourceTree = "<group>"; };
+		ACF2B33E1D74846100DBD56A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		ACF2B3401D74846100DBD56A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		ACF2B3431D74846100DBD56A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		ACF2B3451D74846100DBD56A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ACF2B34F1D7488BF00DBD56A /* pmlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pmlogo.png; sourceTree = "<group>"; };
+		ACF2B3501D7488BF00DBD56A /* splashbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splashbg.png; sourceTree = "<group>"; };
+		ACF2B3541D748A0100DBD56A /* GameVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameVC.swift; sourceTree = "<group>"; };
+		ACF2B3561D7498C700DBD56A /* GameLoop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLoop.swift; sourceTree = "<group>"; };
+		ACF2B3581D74990200DBD56A /* GameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		ACF2B35A1D74992300DBD56A /* Mass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mass.swift; sourceTree = "<group>"; };
+		ACF2B35C1D74995800DBD56A /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		ACF2B35E1D74998500DBD56A /* PointerGrav.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointerGrav.swift; sourceTree = "<group>"; };
+		ACF2B3601D74A42F00DBD56A /* GravPhysics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GravPhysics.swift; sourceTree = "<group>"; };
+		ACF2B3621D74B83D00DBD56A /* Absorber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Absorber.swift; sourceTree = "<group>"; };
+		ACF2B3641D74B8BD00DBD56A /* Destroyer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Destroyer.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		ACF2B3331D74846100DBD56A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		ACF2B32D1D74846100DBD56A = {
+			isa = PBXGroup;
+			children = (
+				ACF2B3381D74846100DBD56A /* GraviFun */,
+				ACF2B3371D74846100DBD56A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		ACF2B3371D74846100DBD56A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ACF2B3361D74846100DBD56A /* GraviFun.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ACF2B3381D74846100DBD56A /* GraviFun */ = {
+			isa = PBXGroup;
+			children = (
+				ACF2B3531D7488C700DBD56A /* Resources */,
+				ACF2B3391D74846100DBD56A /* AppDelegate.swift */,
+				ACF2B33B1D74846100DBD56A /* SplashController.swift */,
+				ACF2B3541D748A0100DBD56A /* GameVC.swift */,
+				ACF2B3561D7498C700DBD56A /* GameLoop.swift */,
+				ACF2B3581D74990200DBD56A /* GameView.swift */,
+				ACF2B35A1D74992300DBD56A /* Mass.swift */,
+				ACF2B35C1D74995800DBD56A /* Game.swift */,
+				ACF2B3601D74A42F00DBD56A /* GravPhysics.swift */,
+				ACF2B3621D74B83D00DBD56A /* Absorber.swift */,
+				ACF2B3641D74B8BD00DBD56A /* Destroyer.swift */,
+				ACF2B35E1D74998500DBD56A /* PointerGrav.swift */,
+				ACF2B33D1D74846100DBD56A /* Main.storyboard */,
+				ACF2B3401D74846100DBD56A /* Assets.xcassets */,
+				ACF2B3421D74846100DBD56A /* LaunchScreen.storyboard */,
+				ACF2B3451D74846100DBD56A /* Info.plist */,
+			);
+			path = GraviFun;
+			sourceTree = "<group>";
+		};
+		ACF2B3531D7488C700DBD56A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				ACF2B34F1D7488BF00DBD56A /* pmlogo.png */,
+				ACF2B3501D7488BF00DBD56A /* splashbg.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		ACF2B3351D74846100DBD56A /* GraviFun */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ACF2B3481D74846100DBD56A /* Build configuration list for PBXNativeTarget "GraviFun" */;
+			buildPhases = (
+				ACF2B3321D74846100DBD56A /* Sources */,
+				ACF2B3331D74846100DBD56A /* Frameworks */,
+				ACF2B3341D74846100DBD56A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GraviFun;
+			productName = GraviFun;
+			productReference = ACF2B3361D74846100DBD56A /* GraviFun.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		ACF2B32E1D74846100DBD56A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0800;
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = "Travis Gershon";
+				TargetAttributes = {
+					ACF2B3351D74846100DBD56A = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = ACF2B3311D74846100DBD56A /* Build configuration list for PBXProject "GraviFun" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = ACF2B32D1D74846100DBD56A;
+			productRefGroup = ACF2B3371D74846100DBD56A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ACF2B3351D74846100DBD56A /* GraviFun */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		ACF2B3341D74846100DBD56A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ACF2B3441D74846100DBD56A /* LaunchScreen.storyboard in Resources */,
+				ACF2B3411D74846100DBD56A /* Assets.xcassets in Resources */,
+				ACF2B33F1D74846100DBD56A /* Main.storyboard in Resources */,
+				ACF2B3511D7488BF00DBD56A /* pmlogo.png in Resources */,
+				ACF2B3521D7488BF00DBD56A /* splashbg.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		ACF2B3321D74846100DBD56A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ACF2B33C1D74846100DBD56A /* SplashController.swift in Sources */,
+				ACF2B3631D74B83D00DBD56A /* Absorber.swift in Sources */,
+				ACF2B3571D7498C700DBD56A /* GameLoop.swift in Sources */,
+				ACF2B35D1D74995800DBD56A /* Game.swift in Sources */,
+				ACF2B3551D748A0100DBD56A /* GameVC.swift in Sources */,
+				ACF2B35F1D74998500DBD56A /* PointerGrav.swift in Sources */,
+				ACF2B33A1D74846100DBD56A /* AppDelegate.swift in Sources */,
+				ACF2B3651D74B8BD00DBD56A /* Destroyer.swift in Sources */,
+				ACF2B3591D74990200DBD56A /* GameView.swift in Sources */,
+				ACF2B3611D74A42F00DBD56A /* GravPhysics.swift in Sources */,
+				ACF2B35B1D74992300DBD56A /* Mass.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		ACF2B33D1D74846100DBD56A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ACF2B33E1D74846100DBD56A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		ACF2B3421D74846100DBD56A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ACF2B3431D74846100DBD56A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		ACF2B3461D74846100DBD56A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		ACF2B3471D74846100DBD56A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		ACF2B3491D74846100DBD56A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = GraviFun/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.paradigmmotion.GraviFun;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		ACF2B34A1D74846100DBD56A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = GraviFun/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.paradigmmotion.GraviFun;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		ACF2B3311D74846100DBD56A /* Build configuration list for PBXProject "GraviFun" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ACF2B3461D74846100DBD56A /* Debug */,
+				ACF2B3471D74846100DBD56A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ACF2B3481D74846100DBD56A /* Build configuration list for PBXNativeTarget "GraviFun" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ACF2B3491D74846100DBD56A /* Debug */,
+				ACF2B34A1D74846100DBD56A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = ACF2B32E1D74846100DBD56A /* Project object */;
+}
