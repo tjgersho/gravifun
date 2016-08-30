@@ -17,7 +17,7 @@ class Mass: NSObject{
     var velX: Double = 0.0
     var velY: Double = 0.0
     var radius: Double
-    var diameter: Double
+
     
     var forceX: Double = 0
     var forceY: Double = 0
@@ -38,14 +38,13 @@ class Mass: NSObject{
         
          // print(self.forceX)
         
-        radius =  Double(arc4random_uniform(100))/100.0*size*0.005 + size*0.002
+        self.radius =  Double(arc4random_uniform(100))/100.0*size*0.005 + size*0.002
        
         
         //print("Radius \(radius) ")
         
         
-        self.diameter  = 2*self.radius;
-        
+       
         let red = Double(arc4random()%256)/256.0
         let green = Double(arc4random()%256)/256.0
         let blue = Double(arc4random()%256)/256.0
@@ -75,7 +74,7 @@ class Mass: NSObject{
             
             
             // context.setFillColor(color)
-            let sq = CGRect(x: CGFloat(self.posX-self.radius), y: CGFloat(self.posY-self.radius), width: CGFloat(self.diameter), height: CGFloat(self.diameter))
+            let sq = CGRect(x: CGFloat(self.posX-self.radius), y: CGFloat(self.posY-self.radius), width: CGFloat(2*self.radius), height: CGFloat(2*self.radius))
             
             context.addEllipse(inRect: sq)
             context.fillPath()

@@ -18,6 +18,10 @@ final class Game: NSObject {
     
     var windowWidth: Int = 1000
     var windowHeight: Int = 1000
+    var clearMasses: Bool = false
+    
+    var runMasses: Int = 0
+    
     
    var pnter = PointerGrav.instance
     
@@ -27,11 +31,20 @@ final class Game: NSObject {
     
     var gravState: Int = 0
     
-    
+  
     func update(dt: Double){
        // print("Update Game Graph")
+        if(clearMasses){
+            masses.removeAll()
+            clearMasses = false
+        }
         
-        GravPhysics.instance.run(delta_t: dt)
+        if(runMasses > 0) {
+         runballs(qty: runMasses)
+            runMasses = 0
+        }
+        
+        GravPhysics.instance.run(masses: &masses, delta_t: dt)
         
     }
     
@@ -46,6 +59,8 @@ final class Game: NSObject {
     }
     
     func updateScreenSize(winWidth: Int, winHeight: Int){
+        print("Width \(winWidth)")
+        print("Height \(winHeight)")
         
         windowWidth = winWidth
         windowHeight  = winHeight
@@ -58,9 +73,7 @@ final class Game: NSObject {
     self.masses.append(Mass(x: x, y: y, winWidth: windowWidth, winHeight: windowHeight))
       //self.spawnPlayer.start()
     }
-    func clearMasses(){
-    //  self.masses.removeAll()
-    }
+    
     
     func runballs(qty: Int) -> Int{
      

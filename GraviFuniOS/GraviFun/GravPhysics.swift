@@ -16,15 +16,15 @@ class GravPhysics {
   //
     
     
-    public func run (delta_t: Double){
+    func run ( masses: inout [Mass], delta_t: Double){
    
-        var masses = Game.instance.masses
+       
         let windowWidth = Game.instance.windowWidth
         let windowHeight = Game.instance.windowHeight
         //let pnter = Game.instance.pnter
         
         
-        let GravC: Double = 500*(Double(windowWidth)/1920.0)
+        let GravC: Double = 100*(Double(windowWidth)/1920.0)
         
         
         
@@ -127,10 +127,9 @@ class GravPhysics {
     let prevMass = masses[abs.who].mass();
     let velInitialX = masses[abs.who].velX;
     let velInitialY = masses[abs.who].velY;
-   print("mass Pre \(masses[abs.who].radius)")
-        
+
     masses[abs.who].radius = sqrt(pow(masses[abs.who].radius,2) + pow(masses[abs.absorbs].radius,2));
-     print("mass Post \(masses[abs.who].radius)")
+   
     masses[abs.who].velX = (masses[abs.who].velX*prevMass + masses[abs.absorbs].velX*masses[abs.absorbs].mass())/(prevMass + masses[abs.absorbs].mass());
     masses[abs.who].velY = (masses[abs.who].velY*prevMass + masses[abs.absorbs].velY*masses[abs.absorbs].mass())/(prevMass + masses[abs.absorbs].mass());
     
@@ -167,9 +166,7 @@ class GravPhysics {
     absorbList.removeAll()
     
     
-       Game.instance.masses = []
-        Game.instance.masses = masses
-        
+             
         
     }
     
