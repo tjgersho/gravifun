@@ -7,12 +7,27 @@
 //
 
 import Foundation
+import AVFoundation
 
 
 class GravPhysics {
-   
+    var destroyMassPlayer: AVAudioPlayer!
     static let instance = GravPhysics()
-    private init(){print("Physics INIT")}
+    private init(){print("Physics INIT")
+   
+        do {
+            
+            destroyMassPlayer = try AVAudioPlayer(contentsOf: URL(string: Bundle.main.path(forResource: "explosion", ofType: "mp3")!)!)
+            destroyMassPlayer.prepareToPlay()
+            destroyMassPlayer.numberOfLoops = 1
+            
+            
+        }catch let err as NSError {
+            print (err.debugDescription)
+            
+        }
+
+    }
   //
     
     
@@ -157,7 +172,7 @@ class GravPhysics {
     for de in  destroyList {
     // Log.d("TJG", "Destry loop de "+ Integer.toString(de.who));
     masses.remove(at: de.who);
-    ///destroyPlayer.start();
+    destroyMassPlayer.play()
     //g.destroyPlayer.start();
     }
     

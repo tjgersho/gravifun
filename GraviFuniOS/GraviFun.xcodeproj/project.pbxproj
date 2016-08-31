@@ -23,6 +23,9 @@
 		ACF2B3611D74A42F00DBD56A /* GravPhysics.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B3601D74A42F00DBD56A /* GravPhysics.swift */; };
 		ACF2B3631D74B83D00DBD56A /* Absorber.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B3621D74B83D00DBD56A /* Absorber.swift */; };
 		ACF2B3651D74B8BD00DBD56A /* Destroyer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B3641D74B8BD00DBD56A /* Destroyer.swift */; };
+		ACF2B3691D77396B00DBD56A /* bottlepop.wav in Resources */ = {isa = PBXBuildFile; fileRef = ACF2B3661D77396B00DBD56A /* bottlepop.wav */; };
+		ACF2B36A1D77396B00DBD56A /* explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = ACF2B3671D77396B00DBD56A /* explosion.mp3 */; };
+		ACF2B36B1D77396B00DBD56A /* lightyears.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = ACF2B3681D77396B00DBD56A /* lightyears.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +47,9 @@
 		ACF2B3601D74A42F00DBD56A /* GravPhysics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GravPhysics.swift; sourceTree = "<group>"; };
 		ACF2B3621D74B83D00DBD56A /* Absorber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Absorber.swift; sourceTree = "<group>"; };
 		ACF2B3641D74B8BD00DBD56A /* Destroyer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Destroyer.swift; sourceTree = "<group>"; };
+		ACF2B3661D77396B00DBD56A /* bottlepop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bottlepop.wav; sourceTree = "<group>"; };
+		ACF2B3671D77396B00DBD56A /* explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion.mp3; sourceTree = "<group>"; };
+		ACF2B3681D77396B00DBD56A /* lightyears.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = lightyears.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +105,9 @@
 		ACF2B3531D7488C700DBD56A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				ACF2B3661D77396B00DBD56A /* bottlepop.wav */,
+				ACF2B3671D77396B00DBD56A /* explosion.mp3 */,
+				ACF2B3681D77396B00DBD56A /* lightyears.mp3 */,
 				ACF2B34F1D7488BF00DBD56A /* pmlogo.png */,
 				ACF2B3501D7488BF00DBD56A /* splashbg.png */,
 			);
@@ -137,6 +146,7 @@
 				TargetAttributes = {
 					ACF2B3351D74846100DBD56A = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = ZTDDRQT5SU;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -164,9 +174,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACF2B36B1D77396B00DBD56A /* lightyears.mp3 in Resources */,
+				ACF2B3691D77396B00DBD56A /* bottlepop.wav in Resources */,
 				ACF2B3441D74846100DBD56A /* LaunchScreen.storyboard in Resources */,
 				ACF2B3411D74846100DBD56A /* Assets.xcassets in Resources */,
 				ACF2B33F1D74846100DBD56A /* Main.storyboard in Resources */,
+				ACF2B36A1D77396B00DBD56A /* explosion.mp3 in Resources */,
 				ACF2B3511D7488BF00DBD56A /* pmlogo.png in Resources */,
 				ACF2B3521D7488BF00DBD56A /* splashbg.png in Resources */,
 			);
@@ -312,7 +325,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = ZTDDRQT5SU;
 				INFOPLIST_FILE = GraviFun/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.paradigmmotion.GraviFun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -324,7 +339,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = ZTDDRQT5SU;
 				INFOPLIST_FILE = GraviFun/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.paradigmmotion.GraviFun;
 				PRODUCT_NAME = "$(TARGET_NAME)";

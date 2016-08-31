@@ -8,11 +8,20 @@
 
 
 import UIKit
+import AVFoundation
+
 
 class GameVC: UIViewController {
     
     var windowWidth: Int = 1000
     var windowHeight: Int = 1000
+    
+    static var instance = GameVC()
+    
+    var musicPlayer: AVAudioPlayer!
+    var addMassPlayer: AVAudioPlayer!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,12 +41,60 @@ class GameVC: UIViewController {
      
        Game.instance.updateScreenSize(winWidth: windowWidth, winHeight: windowHeight)
         
-        let gl = GameLoop(frameInterval: 40, runFunc: runGame)
-        gl.start()
+       // let gl = GameLoop(frameInterval: 60, runFunc: runGame)
+        //gl.start()
+        
+        if #available(iOS 10.0, *) {
+            Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true, block: { _ in self.runGame() })
+        } else {
+            Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.runGame), userInfo: nil, repeats: true)
+            
+        }
+        
         
         print("GAMEVC LOADED")
         
-         Game.instance.runballs(qty: 30);
+         Game.instance.runballs(qty: 30)
+         initAudio()
+        
+       
+    }
+    func initAudio(){
+        
+        let path = Bundle.main.path(forResource: "lightyears", ofType: "mp3")!
+        
+        do {
+            musicPlayer = try AVAudioPlayer(contentsOf: URL(string: path)!)
+            musicPlayer.prepareToPlay()
+            musicPlayer.numberOfLoops = -1
+            musicPlayer.play()
+            
+            addMassPlayer = try AVAudioPlayer(contentsOf: URL(string: Bundle.main.path(forResource: "bottlepop", ofType: "wav")!)!)
+            addMassPlayer.prepareToPlay()
+            addMassPlayer.numberOfLoops = 1
+            
+            
+        }catch let err as NSError {
+            print (err.debugDescription)
+            
+        }
+    }
+    func stopMusic(){
+        print("StopMusic Called App")
+        if musicPlayer.isPlaying   {
+            musicPlayer.stop()
+        }
+        
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+        print("Leaving App")
+        musicPlayer.stop()
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("Leaving App")
+        musicPlayer.stop()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -45,13 +102,15 @@ class GameVC: UIViewController {
         let orentation = UIDevice.current.orientation
 
         
-        if(orentation.isPortrait){
-            
-            windowWidth  = Int(self.view.frame.size.width)
-            windowHeight  = Int(self.view.frame.size.height)
-        }else{
-            windowHeight  = Int(self.view.frame.size.width)
-            windowWidth  = Int(self.view.frame.size.height)
+        if(orentation.isPortrait && self.view.frame.size.width < self.view.frame.size.height){
+                       windowWidth  = Int(self.view.frame.size.width)
+                       windowHeight  = Int(self.view.frame.size.height)
+                    }else{
+           
+                windowHeight  = Int(self.view.frame.size.width)
+                windowWidth  = Int(self.view.frame.size.height)
+                
+        
         }
     
         
@@ -128,7 +187,7 @@ class GameVC: UIViewController {
             
         }else{
             
-            
+            addMassPlayer.play()
             
              Game.instance.addMass(x: touchX, y: touchY)
             Game.instance.pnter.x = touchX
@@ -173,7 +232,7 @@ class GameVC: UIViewController {
             
         }
         
-        return 0
+     
     }
     
     

@@ -29,7 +29,11 @@ class GameLoop : NSObject {
     
     func start() {
         displayLink = CADisplayLink(target: self, selector: #selector(GameLoop.handleTimer))
-        displayLink.preferredFramesPerSecond = frameInterval
+        if #available(iOS 10.0, *) {
+            displayLink.preferredFramesPerSecond = frameInterval
+        } else {
+           displayLink.frameInterval = frameInterval
+        }
         displayLink.add(to: RunLoop.main, forMode: RunLoopMode(rawValue: RunLoopMode.commonModes.rawValue))
     }
     

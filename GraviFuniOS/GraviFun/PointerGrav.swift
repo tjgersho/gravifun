@@ -29,11 +29,11 @@ class PointerGrav: NSObject {
         }
         
         if(gravstate == 1){
-            return 20000;
+            return 10000;
         }
         
         if(gravstate == 2){
-            return -20000;
+            return -10000;
         }else{
             
             return 0.0001;

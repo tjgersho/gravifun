@@ -67,20 +67,24 @@ class Mass: NSObject{
        
         if  let context = UIGraphicsGetCurrentContext() {
             
-            // print("DRAW Mass")
             
-          //  context.setLineWidth(1.0)
-            context.setFillColor(self.color)
-            
-            
-            // context.setFillColor(color)
-            let sq = CGRect(x: CGFloat(self.posX-self.radius), y: CGFloat(self.posY-self.radius), width: CGFloat(2*self.radius), height: CGFloat(2*self.radius))
-            
-            context.addEllipse(inRect: sq)
-            context.fillPath()
-            //context.fillEllipse(in: sq)
-            // context.fillPath()
-            
+              if (radius > 0.03 * Double(windowWidth) && radius <= 0.28 * Double(windowWidth)) {
+                
+        
+                
+                
+              } else if (radius > 0.28 * Double(windowWidth)) {
+                
+                
+                
+              }else{
+                
+                context.setFillColor(self.color)
+                let sq = CGRect(x: CGFloat(self.posX-self.radius), y: CGFloat(self.posY-self.radius), width: CGFloat(2*self.radius), height: CGFloat(2*self.radius))
+                context.addEllipse(inRect: sq)
+                context.fillPath()
+             
+            }
             
         }
     }

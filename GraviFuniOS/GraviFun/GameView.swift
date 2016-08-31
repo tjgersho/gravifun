@@ -31,11 +31,15 @@ class GameView: UIView {
         let delta_t = now - lastTime
         //drawLine(delta_t: delta_t)
       //  print("Delta T \(delta_t)")
-     
-         Game.instance.update(dt: delta_t)
+        DispatchQueue.global(qos: .background).async {
+               Game.instance.update(dt: delta_t)
+           
+            
+        }
+      
         Game.instance.render()
         
-        drawButtons()
+        self.drawButtons()
         
         
         lastTime = now
