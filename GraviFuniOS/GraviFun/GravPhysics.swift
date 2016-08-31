@@ -19,7 +19,7 @@ class GravPhysics {
             
             destroyMassPlayer = try AVAudioPlayer(contentsOf: URL(string: Bundle.main.path(forResource: "explosion", ofType: "mp3")!)!)
             destroyMassPlayer.prepareToPlay()
-            destroyMassPlayer.numberOfLoops = 1
+            destroyMassPlayer.numberOfLoops = 0
             
             
         }catch let err as NSError {

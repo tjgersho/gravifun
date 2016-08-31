@@ -70,10 +70,48 @@ class Mass: NSObject{
             
               if (radius > 0.03 * Double(windowWidth) && radius <= 0.28 * Double(windowWidth)) {
                 
-        
+                
+                let colorspace = CGColorSpaceCreateDeviceRGB()
+                let colors: [CGColor] = [UIColor.black.cgColor,  UIColor.blue.cgColor, self.color]
+                let locations :[CGFloat] = [ 0.0, 0.25,  0.75 ]
+                let gradient = CGGradient(colorsSpace: colorspace, colors: colors, locations: locations)
+                var startPoint = CGPoint()
+                var endPoint = CGPoint()
+                
+                
+                startPoint.x = CGFloat(self.posX)
+                startPoint.y = CGFloat(self.posY)
+                
+                endPoint.x = CGFloat(self.posX)
+                endPoint.y = CGFloat(self.posY)
+                
+                let options = CGGradientDrawingOptions()
+                
+                context.drawRadialGradient(gradient!, startCenter: startPoint, startRadius: CGFloat(0), endCenter: endPoint, endRadius: CGFloat(self.radius), options: options)
+               
+                
                 
                 
               } else if (radius > 0.28 * Double(windowWidth)) {
+                
+                let colorspace = CGColorSpaceCreateDeviceRGB()
+                let colors: [CGColor] = [UIColor.black.cgColor,  UIColor.white.cgColor, self.color]
+                let locations :[CGFloat] = [ 0.0, 0.5,  0.85 ]
+                let gradient = CGGradient(colorsSpace: colorspace, colors: colors, locations: locations)
+                var startPoint = CGPoint()
+                var endPoint = CGPoint()
+                
+                
+                startPoint.x = CGFloat(self.posX)
+                startPoint.y = CGFloat(self.posY)
+                
+                endPoint.x = CGFloat(self.posX)
+                endPoint.y = CGFloat(self.posY)
+                
+                let options = CGGradientDrawingOptions()
+                
+                context.drawRadialGradient(gradient!, startCenter: startPoint, startRadius: CGFloat(0), endCenter: endPoint, endRadius: CGFloat(self.radius), options: options)
+                
                 
                 
                 

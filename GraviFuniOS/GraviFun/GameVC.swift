@@ -28,13 +28,15 @@ class GameVC: UIViewController {
         let orentation = UIDevice.current.orientation
         
         
-        if(orentation.isPortrait){
-            
+        if(orentation.isPortrait && self.view.frame.size.width < self.view.frame.size.height){
             windowWidth  = Int(self.view.frame.size.width)
             windowHeight  = Int(self.view.frame.size.height)
         }else{
+            
             windowHeight  = Int(self.view.frame.size.width)
             windowWidth  = Int(self.view.frame.size.height)
+            
+            
         }
         
         
@@ -148,7 +150,7 @@ class GameVC: UIViewController {
         
         
         let btn: Int = whichButton(clickX: touchX, clickY: touchY)
-        print("Button Click \(btn)")
+        //print("Button Click \(btn)")
         if(btn != 0){
             
             switch (btn){
