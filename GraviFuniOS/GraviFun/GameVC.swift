@@ -25,7 +25,7 @@ class GameVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let orentation = UIDevice.current.orientation
+        let orentation = UIDevice.currentDevice().orientation
         
         
         if(orentation.isPortrait && self.view.frame.size.width < self.view.frame.size.height){
@@ -41,37 +41,47 @@ class GameVC: UIViewController {
         
         
      
-       Game.instance.updateScreenSize(winWidth: windowWidth, winHeight: windowHeight)
+       Game.instance.updateScreenSize(windowWidth, winHeight: windowHeight)
         
        // let gl = GameLoop(frameInterval: 60, runFunc: runGame)
         //gl.start()
         
         if #available(iOS 10.0, *) {
-            Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true, block: { _ in self.runGame() })
-        } else {
-            Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.runGame), userInfo: nil, repeats: true)
+           // Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true, block: { _ in self.runGame() })
             
+             NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(self.runGame), userInfo: nil, repeats: true)
+            
+        } else {
+           // Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.runGame), userInfo: nil, repeats: true)
+            
+            NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: #selector(self.runGame), userInfo: nil, repeats: true)
+
         }
         
         
         print("GAMEVC LOADED")
         
-         Game.instance.runballs(qty: 30)
+         Game.instance.runballs(30)
          initAudio()
         
        
     }
     func initAudio(){
         
-        let path = Bundle.main.path(forResource: "lightyears", ofType: "mp3")!
+
         
         do {
-            musicPlayer = try AVAudioPlayer(contentsOf: URL(string: path)!)
+            
+            
+            musicPlayer = try AVAudioPlayer(contentsOfURL: NSURL(string: NSBundle.mainBundle().pathForResource("lightyears", ofType: "mp3")!)!)
             musicPlayer.prepareToPlay()
             musicPlayer.numberOfLoops = -1
             musicPlayer.play()
             
-            addMassPlayer = try AVAudioPlayer(contentsOf: URL(string: Bundle.main.path(forResource: "bottlepop", ofType: "wav")!)!)
+            addMassPlayer = try AVAudioPlayer(contentsOfURL: NSURL(string: NSBundle.mainBundle().pathForResource("bottlepop", ofType: "wav")!)!)
+            
+            
+
             addMassPlayer.prepareToPlay()
             addMassPlayer.numberOfLoops = 1
             
@@ -83,25 +93,27 @@ class GameVC: UIViewController {
     }
     func stopMusic(){
         print("StopMusic Called App")
-        if musicPlayer.isPlaying   {
-            musicPlayer.stop()
+        if musicPlayer.playing  {
+            self.musicPlayer.stop()
         }
         
     }
-    override func viewDidDisappear(_ animated: Bool) {
+    override func viewDidDisappear(animated: Bool) {
     super.viewDidDisappear(animated)
         print("Leaving App")
         musicPlayer.stop()
     }
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(animated: Bool) {
+    
         super.viewWillDisappear(animated)
         print("Leaving App")
         musicPlayer.stop()
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+  
        
-        let orentation = UIDevice.current.orientation
+        let orentation = UIDevice.currentDevice().orientation
 
         
         if(orentation.isPortrait && self.view.frame.size.width < self.view.frame.size.height){
@@ -118,7 +130,7 @@ class GameVC: UIViewController {
         
      
        
-        Game.instance.updateScreenSize(winWidth: windowWidth, winHeight: windowHeight)
+        Game.instance.updateScreenSize(windowWidth, winHeight: windowHeight)
         
         
     }
@@ -135,8 +147,8 @@ class GameVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touch = touches.first?.location(in: self.view)
+    override func touchesBegan(_ touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first?.locationInView(self.view)
         
         
         //print("\(touch?.x)")
@@ -149,7 +161,7 @@ class GameVC: UIViewController {
         let touchY: Double = Double((touch?.y)!)
         
         
-        let btn: Int = whichButton(clickX: touchX, clickY: touchY)
+        let btn: Int = whichButton(touchX, clickY: touchY)
         //print("Button Click \(btn)")
         if(btn != 0){
             
@@ -191,7 +203,7 @@ class GameVC: UIViewController {
             
             addMassPlayer.play()
             
-             Game.instance.addMass(x: touchX, y: touchY)
+             Game.instance.addMass(touchX, y: touchY)
             Game.instance.pnter.x = touchX
             Game.instance.pnter.y = touchY
 
@@ -203,7 +215,10 @@ class GameVC: UIViewController {
     
     
     private func whichButton(clickX: Double, clickY: Double) -> Int{
-        if(clickY > 0.10*Double(windowHeight) && clickY < (Double(windowHeight)-0.10*Double(windowHeight))){
+        var b:Bool =   clickY > 0.10*Double(windowHeight)
+        var a:Bool =   clickY < (Double(windowHeight)-0.10*Double(windowHeight))
+        
+        if(b &&  a){
             return 0
         }else{
             

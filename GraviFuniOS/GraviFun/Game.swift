@@ -40,11 +40,11 @@ final class Game: NSObject {
         }
         
         if(runMasses > 0) {
-         runballs(qty: runMasses)
+         runballs(runMasses)
             runMasses = 0
         }
         
-        GravPhysics.instance.run(masses: &masses, delta_t: dt)
+        GravPhysics.instance.run(&masses, delta_t: dt)
         
     }
     
@@ -79,7 +79,7 @@ final class Game: NSObject {
      
      if(self.masses.count<qty){
         spawnMass();
-     return runballs(qty: qty);
+     return runballs(qty);
       }else{
     
       return 1

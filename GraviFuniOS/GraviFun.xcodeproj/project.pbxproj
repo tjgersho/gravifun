@@ -15,7 +15,6 @@
 		ACF2B3511D7488BF00DBD56A /* pmlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = ACF2B34F1D7488BF00DBD56A /* pmlogo.png */; };
 		ACF2B3521D7488BF00DBD56A /* splashbg.png in Resources */ = {isa = PBXBuildFile; fileRef = ACF2B3501D7488BF00DBD56A /* splashbg.png */; };
 		ACF2B3551D748A0100DBD56A /* GameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B3541D748A0100DBD56A /* GameVC.swift */; };
-		ACF2B3571D7498C700DBD56A /* GameLoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B3561D7498C700DBD56A /* GameLoop.swift */; };
 		ACF2B3591D74990200DBD56A /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B3581D74990200DBD56A /* GameView.swift */; };
 		ACF2B35B1D74992300DBD56A /* Mass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B35A1D74992300DBD56A /* Mass.swift */; };
 		ACF2B35D1D74995800DBD56A /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF2B35C1D74995800DBD56A /* Game.swift */; };
@@ -39,7 +38,6 @@
 		ACF2B34F1D7488BF00DBD56A /* pmlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pmlogo.png; sourceTree = "<group>"; };
 		ACF2B3501D7488BF00DBD56A /* splashbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splashbg.png; sourceTree = "<group>"; };
 		ACF2B3541D748A0100DBD56A /* GameVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameVC.swift; sourceTree = "<group>"; };
-		ACF2B3561D7498C700DBD56A /* GameLoop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLoop.swift; sourceTree = "<group>"; };
 		ACF2B3581D74990200DBD56A /* GameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		ACF2B35A1D74992300DBD56A /* Mass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mass.swift; sourceTree = "<group>"; };
 		ACF2B35C1D74995800DBD56A /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
@@ -86,7 +84,6 @@
 				ACF2B3391D74846100DBD56A /* AppDelegate.swift */,
 				ACF2B33B1D74846100DBD56A /* SplashController.swift */,
 				ACF2B3541D748A0100DBD56A /* GameVC.swift */,
-				ACF2B3561D7498C700DBD56A /* GameLoop.swift */,
 				ACF2B3581D74990200DBD56A /* GameView.swift */,
 				ACF2B35A1D74992300DBD56A /* Mass.swift */,
 				ACF2B35C1D74995800DBD56A /* Game.swift */,
@@ -194,7 +191,6 @@
 			files = (
 				ACF2B33C1D74846100DBD56A /* SplashController.swift in Sources */,
 				ACF2B3631D74B83D00DBD56A /* Absorber.swift in Sources */,
-				ACF2B3571D7498C700DBD56A /* GameLoop.swift in Sources */,
 				ACF2B35D1D74995800DBD56A /* Game.swift in Sources */,
 				ACF2B3551D748A0100DBD56A /* GameVC.swift in Sources */,
 				ACF2B35F1D74998500DBD56A /* PointerGrav.swift in Sources */,

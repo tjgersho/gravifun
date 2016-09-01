@@ -18,12 +18,13 @@ class GameView: UIView {
     var linelength:Double = 0;
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
+    override func drawRect(rect: CGRect) {
+       
         // Drawing code
         
         
-        self.backgroundColor = UIColor.black
-        UIColor.black.set()
+        self.backgroundColor = UIColor.blackColor()
+        UIColor.blackColor().set()
         UIRectFill(rect)
 
         
@@ -31,11 +32,9 @@ class GameView: UIView {
         let delta_t = now - lastTime
         //drawLine(delta_t: delta_t)
       //  print("Delta T \(delta_t)")
-        DispatchQueue.global(qos: .background).async {
-               Game.instance.update(dt: delta_t)
-           
-            
-        }
+       
+               Game.instance.update(delta_t)
+        
       
         Game.instance.render()
         
@@ -67,16 +66,16 @@ class GameView: UIView {
     let singorigx = 2*bottmbtnwidth;
     
       
-        drawBtn(txt: "Singularity" ,  colorbtn: UIColor(red: 0.392, green: 0.392, blue: 0.392, alpha: 0.392).cgColor, cx: singorigx, cy: bottmbtny, rectwidth: bottmbtnwidth, rectheight: btnheight);
+        drawBtn("Singularity" ,  colorbtn: UIColor(red: 0.392, green: 0.392, blue: 0.392, alpha: 0.392).CGColor, cx: singorigx, cy: bottmbtny, rectwidth: bottmbtnwidth, rectheight: btnheight);
         
-    drawBtn(txt: "Dark Energy", colorbtn: UIColor(red: 0.392, green: 0.196, blue: 0.392, alpha: 0.392).cgColor, cx: Double(darkorigx), cy: bottmbtny, rectwidth: bottmbtnwidth, rectheight: btnheight);
+    drawBtn("Dark Energy", colorbtn: UIColor(red: 0.392, green: 0.196, blue: 0.392, alpha: 0.392).CGColor, cx: Double(darkorigx), cy: bottmbtny, rectwidth: bottmbtnwidth, rectheight: btnheight);
         
-    drawBtn(txt: "Zero Mass",   colorbtn: UIColor(red: 0.392, green: 0.196, blue: 0.196, alpha: 0.392).cgColor, cx: zeroorigx, cy: bottmbtny, rectwidth: bottmbtnwidth, rectheight: btnheight);
+    drawBtn("Zero Mass",   colorbtn: UIColor(red: 0.392, green: 0.196, blue: 0.196, alpha: 0.392).CGColor, cx: zeroorigx, cy: bottmbtny, rectwidth: bottmbtnwidth, rectheight: btnheight);
     
-    drawBtn(txt: "Grav-0",   colorbtn: UIColor(red: 0.392, green: 0.196, blue: 0.196, alpha: 0.392).cgColor, cx: Double(grav0origx), cy: Double(topbtny), rectwidth: topbtnwidth, rectheight: btnheight);
-    drawBtn(txt: "Grav-10",   colorbtn: UIColor(red: 0.392, green: 0.196, blue: 0.196, alpha: 0.196).cgColor, cx: grav10origx, cy: Double(topbtny), rectwidth: topbtnwidth, rectheight: btnheight);
-    drawBtn(txt: "Grav-50",  colorbtn: UIColor(red: 0.392, green: 0.392, blue: 0.784, alpha: 0.392).cgColor, cx: grav50origx, cy: Double(topbtny), rectwidth: topbtnwidth, rectheight: btnheight);
-    drawBtn(txt: "Grav-100",   colorbtn: UIColor(red: 0.392, green: 0.784, blue: 0.196, alpha: 0.392).cgColor, cx: grav100origx, cy: Double(topbtny), rectwidth: topbtnwidth, rectheight: btnheight);
+    drawBtn("Grav-0",   colorbtn: UIColor(red: 0.392, green: 0.196, blue: 0.196, alpha: 0.392).CGColor, cx: Double(grav0origx), cy: Double(topbtny), rectwidth: topbtnwidth, rectheight: btnheight);
+    drawBtn("Grav-10",   colorbtn: UIColor(red: 0.392, green: 0.196, blue: 0.196, alpha: 0.196).CGColor, cx: grav10origx, cy: Double(topbtny), rectwidth: topbtnwidth, rectheight: btnheight);
+    drawBtn("Grav-50",  colorbtn: UIColor(red: 0.392, green: 0.392, blue: 0.784, alpha: 0.392).CGColor, cx: grav50origx, cy: Double(topbtny), rectwidth: topbtnwidth, rectheight: btnheight);
+    drawBtn("Grav-100",   colorbtn: UIColor(red: 0.392, green: 0.784, blue: 0.196, alpha: 0.392).CGColor, cx: grav100origx, cy: Double(topbtny), rectwidth: topbtnwidth, rectheight: btnheight);
     
     
     }
@@ -86,10 +85,15 @@ class GameView: UIView {
         
         if  let context = UIGraphicsGetCurrentContext() {
             
+            
+            CGContextSetFillColorWithColor(context, colorbtn)
+         
+            CGContextFillRect(context, CGRect(x: cx, y: cy, width: rectwidth, height: rectheight))
+            
 
-            context.setFillColor(colorbtn)
-            context.addRect(CGRect(x: cx, y: cy, width: rectwidth, height: rectheight))
-            context.fillPath()
+          //  context.setFillColor(colorbtn)
+           // context.addRect(CGRect(x: cx, y: cy, width: rectwidth, height: rectheight))
+           // context.fillPath()
   
     
      }

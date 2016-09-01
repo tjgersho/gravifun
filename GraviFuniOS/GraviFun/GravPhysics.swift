@@ -17,7 +17,8 @@ class GravPhysics {
    
         do {
             
-            destroyMassPlayer = try AVAudioPlayer(contentsOf: URL(string: Bundle.main.path(forResource: "explosion", ofType: "mp3")!)!)
+            destroyMassPlayer = try AVAudioPlayer(contentsOfURL: NSURL(string: NSBundle.mainBundle().pathForResource("explosion", ofType: "mp3")!)!)
+            
             destroyMassPlayer.prepareToPlay()
             destroyMassPlayer.numberOfLoops = 0
             
@@ -31,8 +32,8 @@ class GravPhysics {
   //
     
     
-    func run ( masses: inout [Mass], delta_t: Double){
-   
+   // func run ( masses: inout [Mass], delta_t: Double){
+   func run (inout masses: [Mass], delta_t: Double){
        
         let windowWidth = Game.instance.windowWidth
         let windowHeight = Game.instance.windowHeight
@@ -118,14 +119,14 @@ class GravPhysics {
             var distEarth: Double  =  sqrt(pow(distXEarth,2) + pow(distYEarth,2));
             var forceEarth: Double
             if(distEarth>1) {
-                forceEarth = GravC * mass_me.mass() * Game.instance.pnter.mass(gravstate: Game.instance.gravState) / (distEarth * distEarth);
+                forceEarth = GravC * mass_me.mass() * Game.instance.pnter.mass(Game.instance.gravState) / (distEarth * distEarth);
             }else{
                 distEarth = 1;
-                forceEarth =  GravC * mass_me.mass() * Game.instance.pnter.mass(gravstate: Game.instance.gravState) / (distEarth * distEarth);
+                forceEarth =  GravC * mass_me.mass() * Game.instance.pnter.mass(Game.instance.gravState) / (distEarth * distEarth);
             }
             mass_me.forceX = mass_me.forceX + forceEarth*(distXEarth/distEarth);
             mass_me.forceY = mass_me.forceY + forceEarth*(distYEarth/distEarth);
-            mass_me.stayOnScreen(winWidth: Double(windowWidth), winHeight: Double(windowHeight));
+            mass_me.stayOnScreen(Double(windowWidth), winHeight: Double(windowHeight));
             
             if(mass_me.radius > Double(windowWidth) * 0.3){
                 destroyList.append(Destroyer(who: me))
@@ -137,7 +138,7 @@ class GravPhysics {
 
        
        
-      absorbList.sort(by: {$0.absorbs >  $1.absorbs})
+      absorbList.sortInPlace({$0.absorbs >  $1.absorbs})
     for abs in absorbList {
     let prevMass = masses[abs.who].mass();
     let velInitialX = masses[abs.who].velX;
@@ -150,7 +151,7 @@ class GravPhysics {
     
     masses[abs.who].forceX = masses[abs.who].forceX + 0.1*(masses[abs.who].mass()*(masses[abs.absorbs].velX-velInitialX))/delta_t;
     masses[abs.who].forceY = masses[abs.who].forceY + 0.1*(masses[abs.who].mass()*(masses[abs.absorbs].velY-velInitialY))/delta_t;
-        masses.remove(at: abs.absorbs);
+        masses.removeAtIndex(abs.absorbs)
         
         let x: Double = Double(arc4random_uniform(100))/100.0 * Double(windowWidth)
         let y: Double = Double(arc4random_uniform(100))/100.0 * Double(windowHeight)
@@ -171,7 +172,7 @@ class GravPhysics {
         
     for de in  destroyList {
     // Log.d("TJG", "Destry loop de "+ Integer.toString(de.who));
-    masses.remove(at: de.who);
+    masses.removeAtIndex(de.who);
     destroyMassPlayer.play()
     //g.destroyPlayer.start();
     }

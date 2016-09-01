@@ -15,17 +15,22 @@ class SplashController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         if #available(iOS 10.0, *) {
-            Timer.scheduledTimer(withTimeInterval: 2, repeats: false, block: { _ in self.startGame() })
+           //Timer.scheduledTimer(withTimeInterval: 2, repeats: false, block: { _ in self.startGame() })
+         
+            NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(self.startGame), userInfo: nil, repeats: false )
         } else {
-            Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.startGame), userInfo: nil, repeats: false)
-            
+            //Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.startGame), userInfo: nil, repeats: false)
+             NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(self.startGame), userInfo: nil, repeats: false )
         }
     }
     
     func startGame(){
         print("Start Game")
         
-        performSegue(withIdentifier: "GoGameStart", sender: nil)
+        //performSegue(withIdentifier: "GoGameStart", sender: nil)
+        
+        performSegueWithIdentifier("GoGameStart", sender: nil)
+        
     
     }
     

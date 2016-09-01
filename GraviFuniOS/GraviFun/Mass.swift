@@ -49,7 +49,7 @@ class Mass: NSObject{
         let green = Double(arc4random()%256)/256.0
         let blue = Double(arc4random()%256)/256.0
         //print("\(red)")
-        self.color = UIColor(red: CGFloat(red), green: CGFloat(green), blue: CGFloat(blue), alpha: 255).cgColor
+        self.color = UIColor(red: CGFloat(red), green: CGFloat(green), blue: CGFloat(blue), alpha: 255).CGColor
         
         
     }
@@ -57,7 +57,7 @@ class Mass: NSObject{
     func mass() -> Double{
         let size:Double = Double(min(windowWidth, windowHeight))
        
-        let mass = 0.5*self.radius*self.radius*Double.pi*(1920/size)
+        let mass = 0.5*self.radius*self.radius*M_PI_4*(1920/size)
                
         
         return mass
@@ -72,9 +72,12 @@ class Mass: NSObject{
                 
                 
                 let colorspace = CGColorSpaceCreateDeviceRGB()
-                let colors: [CGColor] = [UIColor.black.cgColor,  UIColor.blue.cgColor, self.color]
+                let colors: [CGColor] = [UIColor.blackColor().CGColor,  UIColor.blueColor().CGColor, self.color]
                 let locations :[CGFloat] = [ 0.0, 0.25,  0.75 ]
-                let gradient = CGGradient(colorsSpace: colorspace, colors: colors, locations: locations)
+                
+              
+                
+                let gradient = CGGradientCreateWithColors(colorspace, colors, locations)
                 var startPoint = CGPoint()
                 var endPoint = CGPoint()
                 
@@ -87,7 +90,10 @@ class Mass: NSObject{
                 
                 let options = CGGradientDrawingOptions()
                 
-                context.drawRadialGradient(gradient!, startCenter: startPoint, startRadius: CGFloat(0), endCenter: endPoint, endRadius: CGFloat(self.radius), options: options)
+                CGContextDrawRadialGradient(context, gradient,startPoint, 0, endPoint, CGFloat(self.radius), options)
+                
+                
+                //context.drawRadialGradient(gradient!, startCenter: startPoint, startRadius: CGFloat(0), endCenter: endPoint, endRadius: CGFloat(self.radius), options: options)
                
                 
                 
@@ -95,9 +101,9 @@ class Mass: NSObject{
               } else if (radius > 0.28 * Double(windowWidth)) {
                 
                 let colorspace = CGColorSpaceCreateDeviceRGB()
-                let colors: [CGColor] = [UIColor.black.cgColor,  UIColor.white.cgColor, self.color]
+                let colors: [CGColor] = [UIColor.blackColor().CGColor,  UIColor.whiteColor().CGColor, self.color]
                 let locations :[CGFloat] = [ 0.0, 0.5,  0.85 ]
-                let gradient = CGGradient(colorsSpace: colorspace, colors: colors, locations: locations)
+                let gradient = CGGradientCreateWithColors(colorspace, colors, locations)
                 var startPoint = CGPoint()
                 var endPoint = CGPoint()
                 
@@ -109,18 +115,27 @@ class Mass: NSObject{
                 endPoint.y = CGFloat(self.posY)
                 
                 let options = CGGradientDrawingOptions()
+               
+                CGContextDrawRadialGradient(context, gradient,startPoint, 0, endPoint, CGFloat(self.radius), options)
                 
-                context.drawRadialGradient(gradient!, startCenter: startPoint, startRadius: CGFloat(0), endCenter: endPoint, endRadius: CGFloat(self.radius), options: options)
+                
+               // context.drawRadialGradient(gradient!, startCenter: startPoint, startRadius: CGFloat(0), endCenter: endPoint, endRadius: CGFloat(self.radius), options: options)
                 
                 
                 
                 
               }else{
                 
-                context.setFillColor(self.color)
                 let sq = CGRect(x: CGFloat(self.posX-self.radius), y: CGFloat(self.posY-self.radius), width: CGFloat(2*self.radius), height: CGFloat(2*self.radius))
-                context.addEllipse(inRect: sq)
-                context.fillPath()
+                
+                CGContextSetFillColorWithColor(context, self.color)
+                CGContextFillEllipseInRect(context, sq)
+                
+                
+               // context.setFillColor(self.color)
+               // //let sq = CGRect(x: CGFloat(self.posX-self.radius), y: CGFloat(self.posY-self.radius), width: CGFloat(2*self.radius), height: CGFloat(2*self.radius))
+               // context.addEllipse(inRect: sq)
+               // context.fillPath()
              
             }
             

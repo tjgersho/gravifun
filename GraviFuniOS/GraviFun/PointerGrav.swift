@@ -45,18 +45,31 @@ class PointerGrav: NSObject {
         
         if  let context = UIGraphicsGetCurrentContext() {
             
-           // print("DRAW Pointer")
             
-            context.setLineWidth(3.0)
-            context.setStrokeColor(UIColor(red: CGFloat(1), green: CGFloat(1), blue: CGFloat(1), alpha: 1).cgColor)
+            CGContextSetLineWidth(context, 3.0)
+            
+            
+            CGContextSetStrokeColorWithColor(context, UIColor(red: CGFloat(1), green: CGFloat(1), blue: CGFloat(1), alpha: 1).CGColor)
+            
+            let sq = CGRect(x: CGFloat(self.x-6), y: CGFloat(self.y-6), width: CGFloat(12), height: CGFloat(12))
+            
+            
+            CGContextStrokeEllipseInRect(context, sq)
+            
+            CGContextStrokePath(context)
+        
+            // print("DRAW Pointer")
+            
+           // context.setLineWidth(3.0)
+           // context.setStrokeColor(UIColor(red: CGFloat(1), green: CGFloat(1), blue: CGFloat(1), alpha: 1).cgColor)
             
             
             // context.setFillColor(color)
-            let sq = CGRect(x: CGFloat(self.x-6), y: CGFloat(self.y-6), width: CGFloat(12), height: CGFloat(12))
+            //let sq = CGRect(x: CGFloat(self.x-6), y: CGFloat(self.y-6), width: CGFloat(12), height: CGFloat(12))
             
-            context.addEllipse(inRect: sq)
+           // context.addEllipse(inRect: sq)
             
-            context.strokePath()
+          //  context.strokePath()
             //context.fillEllipse(in: sq)
             // context.fillPath()
             
