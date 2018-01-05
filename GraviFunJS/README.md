@@ -30,4 +30,4 @@ Then include the gravityjs.js file like so:
 
 You should be good to go!
 
-Check it out at: <a href="https://outoftheboxworx.com">OutoftheBoxWorx</a>
+Check it out at: <a href="http://brinktank.io/gravifun/">BrinkTank</a>
