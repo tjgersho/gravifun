@@ -1,4 +1,4 @@
-package com.ParadigmMotion.GraviFun;
+package com.paradigmmotion.gravifun;
 
         import android.app.Activity;
         import android.content.Intent;

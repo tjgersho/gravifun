@@ -1,4 +1,4 @@
-package com.ParadigmMotion.GraviFun;
+package com.paradigmmotion.gravifun;
 
 /**
  * Created by tjgersho on 8/19/16.
